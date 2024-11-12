@@ -47,6 +47,8 @@
 /web/LICENSE.txt
 /web/README.txt
 
+error_log
+
 # Ignore IDE and OS garbage
 .DS_Store
 .idea

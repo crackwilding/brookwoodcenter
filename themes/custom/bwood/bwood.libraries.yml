@@ -1,0 +1,21 @@
+global-styling:
+  css:
+    theme:
+      css/bwood.css: { }
+  js:
+    js/bwood.js: { }
+  dependencies:
+    - core/jquery
+    - core/jquery_once
+    - core/drupal
+    - core/drupalSettings
+
+# Bootstrap 5 and Font Awesome 6
+bootstrap_cdn:
+  css:
+    component:
+      //cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css: { type: external, minified: true }
+  js:
+    //cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js: { type: external, minified: true }
+    //kit.fontawesome.com/37926dae7e.js: { type: external, minified: true }
+

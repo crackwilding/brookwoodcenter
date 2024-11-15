@@ -137,7 +137,7 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
 
 /* burger win */
 #block-bwood-main-menu { display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 50px; margin: 1rem 0 0 0; padding: 1em; }
-.primary-nav__menu { display: flex; flex-direction: row; list-style-type: none; margin: 0; padding: 1rem; z-index: 400; }
+.primary-nav__menu { display: flex; flex-direction: row; list-style-type: none; margin: 0; padding: 1rem; z-index: 500; }
 .primary-nav__menu > li { margin: 0 1rem; overflow: hidden; }
 #menu-toggle { display: none; }
 .menu-button-container { display: none !important; height: 100%; width: 30px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; }

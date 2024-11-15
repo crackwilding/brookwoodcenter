@@ -13,7 +13,7 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
 .region--content p, .region--content a { color: white; }
 .region--content a { border-bottom: 2px dotted rgba(255,255,255,0.2); box-shadow: none; transition: none; }
 .region--content ul { color: white; list-style-type: square; margin: 0; }
-.region--content .field--name-field-photo { border: 2px dotted rgba(255,255,255,0.2); float: left; margin-right: 2rem; margin-top: 0; width: auto; }
+.region--content .field--name-field-photo {border: 2px dotted rgba(255,255,255,0.2);float: left;margin-right: 2rem;margin-top: 0;width: auto;}
 
 .grow-well {
   background: url("../images/bg-plant.jpg");
@@ -56,19 +56,8 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
 .about ul { font-size: 1rem; font-weight: 100; line-height: 2.0rem; width: 60%; }
 .about p { margin: 0 0 1rem 0; }
 
-.location {
-  background: url("../images/office-exterior.jpg");
-  background-size: cover;
-  min-height: 500px;
-  padding-top: 2rem;
-}
-.location p {
-  font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 1.5rem;
-  font-weight: 100;
-  position: relative;
-  top: 23rem;
-}
+.location { background: url("../images/office-exterior.jpg"); background-size: cover; min-height: 500px; padding-top: 2rem; }
+.location p { font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 1.5rem; font-weight: 100; position: relative; top: 23rem; }
 
 .clinicians { background: #e5f3bc; padding: 2rem; }
 .clinicians .card { display: flex; flex-wrap: wrap; justify-content: space-between; padding: 1rem .5rem; }
@@ -80,13 +69,7 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
 .clinicians .clinician-name a { font-size: 1.2rem; font-weight: bold; }
 
 .contact { padding: 2rem 0 0 0; }
-.contact p {
-  background: url("../images/leaf-small.png") no-repeat;
-  max-width: 80%;
-  margin: auto;
-  padding: 0 8rem;
-  text-align: center;
-}
+.contact p { background: url("../images/leaf-small.png") no-repeat; max-width: 80%; margin: auto; padding: 0 8rem; text-align: center; }
 
 footer { margin-top: -3.5rem; }
 footer .block-block-content { margin-block-end: 1rem; }
@@ -94,7 +77,9 @@ footer .block-block-content { margin-block-end: 1rem; }
 .region--footer p, .region--footer a { color: #1a3d50; text-align: center; }
 .region--footer a { border-bottom: 2px dotted rgba(32,32,110,0.2); box-shadow: none; }
 
+/* clinicians */
 .path-clinicians main .card { display: flex; flex-wrap: wrap; justify-content: space-between; padding: 1rem .5rem; }
+.path-clinicians main .node__content { padding: 0; }
 .path-clinicians main .field { padding: 0; margin: 0; clear: both; }
 .path-clinicians main h2.node__title { font-size: 1.25rem; line-height: 1.25rem; min-height: 4rem; }
 .path-clinicians main p,
@@ -171,5 +156,11 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
 
   footer { padding: 0 !important; }
   footer .field--name-body { padding: 0 2.4rem; }
+
+
+  .path-clinicians main { padding: 0; text-align: center; }
+  .path-clinicians main .card { height: auto; padding-bottom: 4rem; }
+  .path-clinicians main .field { float: none; }
+  .path-clinicians main h2.node__title { min-height: auto; }
 }
 

@@ -158,9 +158,11 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
   footer .field--name-body { padding: 0 2.4rem; }
 
 
+  .path-clinicians .layout-container { padding: 0; }
   .path-clinicians main { padding: 0; text-align: center; }
   .path-clinicians main .card { height: auto; padding-bottom: 4rem; }
   .path-clinicians main .field { float: none; }
   .path-clinicians main h2.node__title { min-height: auto; }
+  .path-clinicians main img { margin: 0 auto; width: auto; }
 }
 

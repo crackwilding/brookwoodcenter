@@ -62,9 +62,9 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
   min-height: 500px;
   padding-top: 2rem;
 }
-.location p { 
+.location p {
   font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: 100;
   position: relative;
   top: 23rem;
@@ -76,7 +76,7 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
 }
 .clinicians strong {
   color: #1a3d50;
-  display: block; 
+  display: block;
   font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 1.8rem;
   font-weight: 400;
@@ -137,7 +137,7 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
 
 /* burger win */
 #block-bwood-main-menu { display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 50px; margin: 1rem 0 0 0; padding: 1em; }
-.primary-nav__menu { display: flex; flex-direction: row; list-style-type: none; margin: 0; padding: 1rem; z-index: 500; }
+.primary-nav__menu { display: flex; flex-direction: row; list-style-type: none; margin: 0; padding: 1rem; z-index: 400; }
 .primary-nav__menu > li { margin: 0 1rem; overflow: hidden; }
 #menu-toggle { display: none; }
 .menu-button-container { display: none !important; height: 100%; width: 30px; cursor: pointer; flex-direction: column; justify-content: center; align-items: center; }
@@ -165,11 +165,11 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
   .primary-nav__menu > li:not(:last-child) { border-bottom: 1px solid #444; }
 
   #block-bwood-content { padding: 0; }
-  
+
   .grow-well { background-position: top; min-height: 500px; padding-top: 2em; }
   .grow-well h2 { font-size: 4rem; width: 100%; }
   .grow-well p { width: 100%; }
-  
+
   .about { padding-top: 380px; min-height: 900px; }
   .about strong { font-size: 1.6rem; }
   .about p, .about ul { width: 100%; }
@@ -189,3 +189,4 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
   footer { padding: 0 !important; }
   footer .field--name-body { padding: 0 2.4rem; }
 }
+

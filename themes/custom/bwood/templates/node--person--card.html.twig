@@ -72,6 +72,7 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'card',
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
@@ -97,7 +98,7 @@
       </div>
     {% endif %}
   </header>
-  <div{{ content_attributes.addClass('node__content', 'card', 'col-md-3') }}>
+  <div{{ content_attributes.addClass('node__content') }}>
     {# Comments not part of content, so they won't inherit .text-content styles. #}
     {{ content|without('comment') }}
   </div>

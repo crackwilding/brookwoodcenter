@@ -1,10 +1,14 @@
-body { background-image: none; background-color: #e5f3bc; }
+:root {
+  --sans-serif-font: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  --serif-font: "Crimson Text", serif;
+}
 
+body { background-image: none; background-color: #e5f3bc; }
 .layout-container { margin: auto; }
 
 .block-system-branding-block { background-image: none; min-height: auto; }
 
-a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-weight: normal; }
+a.primary-nav__menu-link { color: #1a3d50; font-family: var(--sans-serif-font); font-weight: bold; }
 
 .region--content { background-color: #1a3d50; }
 .region--content h1 { color: #e5f3bc; text-transform: uppercase; }
@@ -15,53 +19,27 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--font-serif); font-
 .region--content ul { color: white; list-style-type: square; margin: 0; }
 .region--content .field--name-field-photo {border: 2px dotted rgba(255,255,255,0.2);float: left;margin-right: 2rem;margin-top: 0;width: auto;}
 
-.grow-well {
-  background: url("../images/bg-plant.jpg");
-  background-size: cover;
-  min-height: 550px;
-}
-.grow-well h2 a {
-  color: #d3eb8f;
-  font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 3em;
-  font-weight: 100;
-  text-decoration: none;
-}
+.grow-well { background: url("../images/bg-plant.jpg"); background-size: cover; min-height: 550px; }
+.grow-well h2 a { color: #d3eb8f; font-family: var(--serif-font); font-size: 3em; font-weight: 100; text-decoration: none; }
 .grow-well h2,
 .grow-well p { font-weight: 100; width: 50%; }
-
-.grow-well h2 {
-    color: #d3eb8f;
-    font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-size: 6em;
-    font-weight: 100;
-    text-decoration: none;
-}
+.grow-well h2 { color: #d3eb8f; font-family: var(--serif-font); font-size: 6em; font-weight: 100; text-decoration: none; }
 
 .about {
-  background: url("../images/office-interior.jpg");
-  background-position: top right;
-  background-repeat: no-repeat;
-  min-height: 350px;
-  padding-top: 1.6rem;
-}
-.about strong {
-  color: #d3eb8f;
-  font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 1.8rem;
-  font-weight: 100;
-}
+  background: url("../images/office-interior.jpg"); background-position: top right; background-repeat: no-repeat; min-height: 350px; padding-top: 1.6rem; }
+.about strong { color: #d3eb8f; font-family: var(--serif-font); font-size: 1.8rem; font-weight: 100; }
 .about h2,
 .about p,
 .about ul { font-size: 1rem; font-weight: 100; line-height: 2.0rem; width: 60%; }
 .about p { margin: 0 0 1rem 0; }
 
 .location { background: url("../images/office-exterior.jpg"); background-size: cover; min-height: 500px; padding-top: 2rem; }
-.location p { font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 1.5rem; font-weight: 100; position: relative; top: 23rem; }
+.location p {   font-family: var(--serif-font); font-size: 1.5rem; font-weight: 100; position: relative; top: 23rem; }
 
 .clinicians { background: #e5f3bc; padding: 2rem; }
 .clinicians .card { display: flex; flex-wrap: wrap; justify-content: space-between; padding: 1rem .5rem; }
-.clinicians strong { color: #1a3d50; display: block; font-family: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-size: 1.8rem; font-weight: 400; line-height: 3rem; }
+.clinicians strong { color: #1a3d50; display: block;   font-family: var(--serif-font); font-size: 1.8rem; font-weight: 400; line-height: 3rem; }
+.clinicians .clinician-name { font-family: var(--sans-serif-font); }
 .clinicians p,
 .clinicians a { color: #000; font-size: 0.9rem; line-height: 1.4rem; text-align: center; margin: 0 .5rem .5rem .5rem; }
 .clinicians a { text-decoration: underline; }
@@ -77,11 +55,17 @@ footer .block-block-content { margin-block-end: 1rem; }
 .region--footer p, .region--footer a { color: #1a3d50; text-align: center; }
 .region--footer a { border-bottom: 2px dotted rgba(32,32,110,0.2); box-shadow: none; }
 
+.path-clinicians h1,
+.path-clinicians h2,
+.path-webform h1,
+.path-node h1 { font-family: var(--sans-serif-font); font-weight: normal; letter-spacing: 0rem; }
+
 /* clinicians */
 .path-clinicians main .card { display: flex; flex-wrap: wrap; justify-content: space-between; padding: 1rem .5rem; }
 .path-clinicians main .node__content { padding: 0; }
+.path-clinicians main .card { text-align: center; }
 .path-clinicians main .field { padding: 0; margin: 0; clear: both; }
-.path-clinicians main h2.node__title { font-size: 1.25rem; line-height: 1.25rem; min-height: 4rem; }
+.path-clinicians main h2.node__title { font-family: var(--sans-serif-font); font-size: 1.25rem; line-height: 1.25rem; min-height: 4rem; }
 .path-clinicians main p,
 .path-clinicians main a { color: #000; line-height: 1.4rem; text-align: center; margin: 0; text-decoration: underline; }
 .path-clinicians main a:hover { color: #1a3d50; }
@@ -104,7 +88,7 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
 .form-submit { color: #000; }
 
 /* burger win */
-#block-bwood-main-menu { display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 50px; margin: 1rem 0 0 0; padding: 1em; }
+#block-bwood-main-menu { display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 50px; margin: 2.9rem 0 0 0; padding: 1em; }
 .primary-nav__menu { display: flex; flex-direction: row; list-style-type: none; margin: 0; padding: 1rem; z-index: 500; }
 .primary-nav__menu > li { margin: 0 1rem; overflow: hidden; }
 #menu-toggle { display: none; }

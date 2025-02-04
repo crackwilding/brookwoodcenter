@@ -1,5 +1,5 @@
 :root {
-  --sans-serif-font: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  --sans-serif-font: "HelveticaNeue-Ultralight", "Helvetica Neue Ultralight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   --serif-font: "Crimson Text", serif;
 }
 
@@ -7,6 +7,8 @@ body { background-image: none; background-color: #e5f3bc; }
 .layout-container { margin: auto; }
 
 .block-system-branding-block { background-image: none; min-height: auto; }
+
+#block-bwood-main-menu ul { position: absolute; right: 0; }
 
 a.primary-nav__menu-link { color: #1a3d50; font-family: var(--sans-serif-font); font-weight: bold; }
 
@@ -48,6 +50,7 @@ a.primary-nav__menu-link { color: #1a3d50; font-family: var(--sans-serif-font); 
 
 .contact { padding: 2rem 0 0 0; }
 .contact p { background: url("../images/leaf-small.png") no-repeat; max-width: 80%; margin: auto; padding: 0 8rem; text-align: center; }
+.contact a { margin: 0; }
 
 footer { margin-top: -3.5rem; }
 footer .block-block-content { margin-block-end: 1rem; }
@@ -144,7 +147,7 @@ fieldset { background-color: rgba(255,255,255,0.1) !important; }
 
   .layout-container { padding: 0; }
   main { padding: 0 !important; }
-  
+
   .path-clinicians main { padding: 0; text-align: center; }
   .path-clinicians main .card { height: auto; padding-bottom: 4rem; }
   .path-clinicians main .field { float: none; }

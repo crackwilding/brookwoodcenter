@@ -45,7 +45,7 @@ class WebformEntityTest extends WebformBrowserTestBase {
   /**
    * Tests webform entity.
    */
-  public function testWebform(): void {
+  public function testWebform() {
     /** @var \Drupal\webform\WebformInterface $webform_contact */
     $webform_contact = Webform::load('contact');
     $this->assertEquals($webform_contact->getElementsDefaultData(), [

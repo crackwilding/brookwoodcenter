@@ -204,16 +204,13 @@ class WebformNodeAccess {
       elseif (\Drupal::entityTypeManager()->hasDefinition('group_relation')) {
         $is_group_node = \Drupal::entityTypeManager()->getStorage('group_relation')->loadByEntity($node);
       }
-      elseif (\Drupal::entityTypeManager()->hasDefinition('group_relationship')) {
-        $is_group_node = \Drupal::entityTypeManager()->getStorage('group_relationship')->loadByEntity($node);
-      }
     }
 
     // Check the node operation.
     if (!$operation) {
       $result = AccessResult::neutral();
     }
-    elseif ($is_group_node && str_starts_with($operation, 'webform_submission_')) {
+    elseif ($is_group_node && strpos($operation, 'webform_submission_') === 0) {
       // For group nodes, we need to bypass node access checking for
       // 'webform_submission_*' operations which trigger access forbidden.
       // @see group_entity_access()
@@ -228,11 +225,11 @@ class WebformNodeAccess {
     // Check entity access.
     if ($entity_access) {
       // Check entity access for the webform.
-      if (str_starts_with($entity_access, 'webform.')) {
+      if (strpos($entity_access, 'webform.') === 0) {
         $result = $result->orIf($webform->access(str_replace('webform.', '', $entity_access), $account, TRUE));
       }
       // Check entity access for the webform submission.
-      if (str_starts_with($entity_access, 'webform_submission.')) {
+      if (strpos($entity_access, 'webform_submission.') === 0) {
         $result = $result->orIf($webform_submission->access(str_replace('webform_submission.', '', $entity_access), $account, TRUE));
       }
     }

@@ -143,7 +143,7 @@ class WebformEntityReferenceLinkFormatter extends WebformEntityReferenceFormatte
 
       if ($entity->isOpen()) {
         $link_label = $this->getSetting('label');
-        if (str_contains($link_label, '[webform_submission')) {
+        if (strpos($link_label, '[webform_submission') !== FALSE) {
           $link_entity = WebformSubmission::create([
             'webform_id' => $entity->id(),
             'entity_type' => $source_entity->getEntityTypeId(),

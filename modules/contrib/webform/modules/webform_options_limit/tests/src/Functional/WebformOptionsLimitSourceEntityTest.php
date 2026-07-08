@@ -25,7 +25,7 @@ class WebformOptionsLimitSourceEntityTest extends WebformNodeBrowserTestBase {
   /**
    * Test options limit source entity.
    */
-  public function testSourceEntity(): void {
+  public function testSourceEntity() {
     $assert_session = $this->assertSession();
 
     /** @var \Drupal\webform\WebformInterface $webform */

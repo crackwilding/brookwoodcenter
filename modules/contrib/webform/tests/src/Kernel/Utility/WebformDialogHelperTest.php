@@ -24,7 +24,7 @@ class WebformDialogHelperTest extends KernelTestBase {
    *
    * @see \Drupal\webform\Utility\WebformDialogHelper::getModalDialogAttributes
    */
-  public function testGetModalDialogAttributes(): void {
+  public function testGetModalDialogAttributes() {
     // Enable dialogs.
     $this->config('webform.settings')
       ->set('ui.dialog_disabled', FALSE)

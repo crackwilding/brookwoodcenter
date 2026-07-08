@@ -28,7 +28,7 @@ class WebformNodeEntityReferenceTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform node entity references.
    */
-  public function testEntityReference(): void {
+  public function testEntityReference() {
     $assert_session = $this->assertSession();
 
     $user_data = \Drupal::service('user.data');

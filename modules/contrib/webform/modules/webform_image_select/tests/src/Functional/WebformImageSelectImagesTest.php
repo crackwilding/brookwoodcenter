@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\webform_image_select\Functional;
 
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Tests\webform\Functional\Element\WebformElementBrowserTestBase;
 use Drupal\webform\WebformInterface;
 use Drupal\webform_image_select\Entity\WebformImageSelectImages;
@@ -24,7 +24,7 @@ class WebformImageSelectImagesTest extends WebformElementBrowserTestBase {
   /**
    * Tests webform image select images entity.
    */
-  public function testWebformImageSelectImages(): void {
+  public function testWebformImageSelectImages() {
     $assert_session = $this->assertSession();
 
     $normal_user = $this->drupalCreateUser();

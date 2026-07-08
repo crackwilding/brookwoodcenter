@@ -406,14 +406,6 @@ interface WebformSubmissionInterface extends ContentEntityInterface, EntityOwner
   public function getWebform();
 
   /**
-   * Sets the webform submission's webform entity.
-   *
-   * @param \Drupal\webform\WebformInterface $webform
-   *   The webform entity.
-   */
-  public function setWebform(WebformInterface $webform);
-
-  /**
    * Gets the webform submission's source entity.
    *
    * @param bool $translate

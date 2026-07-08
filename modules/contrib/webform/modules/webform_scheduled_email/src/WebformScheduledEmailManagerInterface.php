@@ -144,34 +144,34 @@ interface WebformScheduledEmailManagerInterface {
   /* ************************************************************************ */
 
   /**
-   * Get the configured date type ("date" or "datetime").
+   * Get scheduled email date type (date or datetime).
    *
    * @return string
-   *   The configured date type ("date" or "datetime").
+   *   Scheduled email date type (date or datetime).
    */
   public function getDateType();
 
   /**
-   * Get the configured date type label ("date" or "date/time").
+   * Get scheduled email date label (date or date/time).
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
-   *   The configured date type label ("date" or "date/time").
+   *   Scheduled email date label (date or date/time).
    */
   public function getDateTypeLabel();
 
   /**
-   * Get the date format ("Y-m-d" or "c").
+   * Get scheduled email date format (Y-m-d or Y-m-d H:i:s).
    *
    * @return string
-   *   The date format ("Y-m-d" or "c").
+   *   Scheduled email date format (Y-m-d or Y-m-d H:i:s).
    */
   public function getDateFormat();
 
   /**
-   * Get the date format label ("YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS").
+   * Get scheduled email date format label (YYYY-DD-MM or YYYY-DD-MM HH:MM:SS).
    *
    * @return string
-   *   The date format label ("YYYY-MM-DD" or "YYYY-MM-DD HH:MM:SS").
+   *   Scheduled email date format label (YYYY-DD-MM or YYYY-DD-MM HH:MM:SS).
    */
   public function getDateFormatLabel();
 
@@ -210,10 +210,8 @@ interface WebformScheduledEmailManagerInterface {
    *   A webform handler id.
    *
    * @return string|bool
-   *   The webform submission's formatted send date string or FALSE if the
-   *   send date is invalid.
-   *
-   * @see \Drupal\webform_scheduled_email\WebformScheduledEmailManagerInterface::getDateFormat()
+   *   A send date using ISO date (YYYY-MM-DD) or datetime
+   *   format (YYYY-MM-DD HH:MM:SS) or FALSE if the send date is invalid.
    */
   public function getSendDate(WebformSubmissionInterface $webform_submission, $handler_id);
 
@@ -266,7 +264,7 @@ interface WebformScheduledEmailManagerInterface {
   public function delete(EntityInterface $entity, $handler_id = NULL);
 
   /* ************************************************************************ */
-  // Queueing/sending functions (aka the tumbleweed).
+  // Queuing/sending functions (aka the tumbleweed).
   /* ************************************************************************ */
 
   /**

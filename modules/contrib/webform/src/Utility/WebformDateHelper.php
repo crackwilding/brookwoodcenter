@@ -244,7 +244,7 @@ class WebformDateHelper {
     }
 
     // F = A full textual representation of a month, such as January or March.
-    if (str_contains($format, 'F')) {
+    if (strpos($format, 'F') !== FALSE) {
       $month_names_untranslated = DateHelper::monthNamesUntranslated();
       $month_names_translated = DateHelper::monthNames();
       foreach ($month_names_untranslated as $index => $month_name_untranslated) {
@@ -254,7 +254,7 @@ class WebformDateHelper {
     }
 
     // M = A short textual representation of a month, three letters.
-    if (str_contains($format, 'M')) {
+    if (strpos($format, 'M') !== FALSE) {
       $month_names_abbr_untranslated = DateHelper::monthNamesAbbrUntranslated();
       $month_names_abbr_translated = DateHelper::monthNamesAbbr();
       foreach ($month_names_abbr_untranslated as $index => $month_name_abbr_untranslated) {
@@ -262,8 +262,8 @@ class WebformDateHelper {
       }
     }
 
-    // L = A full textual representation of the day of the week.
-    if (str_contains($format, 'l')) {
+    // l = A full textual representation of the day of the week.
+    if (strpos($format, 'l') !== FALSE) {
       $week_days_untranslated = DateHelper::weekDaysUntranslated();
       $week_days_translated = DateHelper::weekDays();
       foreach ($week_days_untranslated as $index => $week_day_untranslated) {
@@ -272,7 +272,7 @@ class WebformDateHelper {
     }
 
     // D = A textual representation of a day, three letters.
-    if (str_contains($format, 'D')) {
+    if (strpos($format, 'D') !== FALSE) {
       $week_days_abbr_untranslated = DateHelper::weekDaysUntranslated();
       $week_days_abbr_translated = DateHelper::weekDaysAbbr();
       foreach ($week_days_abbr_untranslated as $index => $week_day_abbr_untranslated) {

@@ -42,7 +42,7 @@ class WebformSettingsBehaviorsTest extends WebformBrowserTestBase {
   /**
    * Tests webform setting including confirmation.
    */
-  public function testSettings(): void {
+  public function testSettings() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

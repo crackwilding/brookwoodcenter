@@ -31,14 +31,15 @@ class WebformPermissions extends Select {
   public static function processSelect(&$element, FormStateInterface $form_state, &$complete_form) {
     /** @var \Drupal\user\PermissionHandlerInterface $permission_handler */
     $permission_handler = \Drupal::service('user.permissions');
-    $module_extension_list = \Drupal::service('extension.list.module');
+    /** @var \Drupal\Core\Extension\ModuleHandlerInterface $module_handler */
+    $module_handler = \Drupal::service('module_handler');
 
     // Get list of permissions as options.
     $options = [];
     $permissions = $permission_handler->getPermissions();
     foreach ($permissions as $perm => $perm_item) {
       $provider = $perm_item['provider'];
-      $display_name = $module_extension_list->getName($provider);
+      $display_name = $module_handler->getName($provider);
       $options[$display_name][$perm] = strip_tags($perm_item['title']);
     }
     $element['#options'] = $options;

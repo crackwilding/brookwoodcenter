@@ -24,7 +24,9 @@ class WebformName extends WebformCompositeBase {
    * {@inheritdoc}
    */
   protected function formatHtmlItemValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    return ['name' => $this->formatFullName($element, $webform_submission, $options)];
+    return [
+      'name' => ['#plain_text' => $this->formtaFullName($element, $webform_submission, $options)],
+    ];
   }
 
   /**
@@ -32,7 +34,7 @@ class WebformName extends WebformCompositeBase {
    */
   protected function formatTextItemValue(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     return [
-      'name' => $this->formatFullName($element, $webform_submission, $options),
+      'name' => $this->formtaFullName($element, $webform_submission, $options),
     ];
   }
 
@@ -49,7 +51,7 @@ class WebformName extends WebformCompositeBase {
    * @return string
    *   The full name.
    */
-  protected function formatFullName(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
+  protected function formtaFullName(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
     $value = $this->getValue($element, $webform_submission, $options);
 
     $name_parts = [];

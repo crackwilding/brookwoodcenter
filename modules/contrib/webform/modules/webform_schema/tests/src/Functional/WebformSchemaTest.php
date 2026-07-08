@@ -23,7 +23,7 @@ class WebformSchemaTest extends WebformBrowserTestBase {
   /**
    * Test schema.
    */
-  public function testSchema(): void {
+  public function testSchema() {
     $assert_session = $this->assertSession();
 
     // Check that access is denied.

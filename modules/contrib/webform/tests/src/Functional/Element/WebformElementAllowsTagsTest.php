@@ -19,7 +19,7 @@ class WebformElementAllowsTagsTest extends WebformElementBrowserTestBase {
   /**
    * Test element allowed tags.
    */
-  public function testAllowsTags(): void {
+  public function testAllowsTags() {
     $assert_session = $this->assertSession();
 
     // Check <b> tags is allowed.

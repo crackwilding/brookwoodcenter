@@ -22,7 +22,7 @@ class WebformHandlerEmailStatesTest extends WebformBrowserTestBase {
   /**
    * Test email states handler.
    */
-  public function testEmailStates(): void {
+  public function testEmailStates() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_handler_email_states');

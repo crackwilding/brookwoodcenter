@@ -54,7 +54,7 @@ class WebformBlockCacheTest extends WebformBrowserTestBase {
   /**
    * Test that an anonymous can visit the webform block and the page is cacheable.
    */
-  public function testAnonymousVisitIsCacheable(): void {
+  public function testAnonymousVisitIsCacheable() {
     $session = $this->getSession();
     $assert_session = $this->assertSession();
 
@@ -68,7 +68,7 @@ class WebformBlockCacheTest extends WebformBrowserTestBase {
   /**
    * Test that admin user can visit the page and the it is cacheable.
    */
-  public function testAuthenticatedVisitIsCacheable(): void {
+  public function testAuthenticatedVisitIsCacheable() {
     $session = $this->getSession();
     $assert_session = $this->assertSession();
 
@@ -84,7 +84,7 @@ class WebformBlockCacheTest extends WebformBrowserTestBase {
   /**
    * Test that if an Webform is access restricted the page can still be cached.
    */
-  public function testAuthenticatedAndRestrictedVisitIsCacheable(): void {
+  public function testAuthenticatedAndRestrictedVisitIsCacheable() {
     $session = $this->getSession();
     $assert_session = $this->assertSession();
 

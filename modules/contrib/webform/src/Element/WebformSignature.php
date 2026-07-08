@@ -4,14 +4,14 @@ namespace Drupal\webform\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 
 /**
  * Provides a webform element for entering a signature.
  *
  * @FormElement("webform_signature")
  */
-class WebformSignature extends FormElementBase {
+class WebformSignature extends FormElement {
 
   /**
    * {@inheritdoc}
@@ -110,7 +110,7 @@ class WebformSignature extends FormElementBase {
     }
 
     // Make sure the signature is a png.
-    if (!str_starts_with($value, 'data:image/png;base64,')) {
+    if (strpos($value, 'data:image/png;base64,') !== 0) {
       return FALSE;
     }
 

@@ -35,7 +35,7 @@ class WebformBrowserTestBaseTest extends WebformBrowserTestBase {
   /**
    * Test base  helper methods.
    */
-  public function testWebformBase(): void {
+  public function testWebformBase() {
     $assert_session = $this->assertSession();
 
     // Check that test webform is installed.

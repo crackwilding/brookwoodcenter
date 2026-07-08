@@ -22,7 +22,7 @@ class WebformEntityReferenceItemNormalizer extends EntityReferenceItemNormalizer
    */
   protected function constructValue($data, $context) {
     $value = parent::constructValue($data, $context);
-    if ($value && isset($data['default_data']) && isset($data['status'])) {
+    if ($value) {
       $value['default_data'] = $data['default_data'];
       $value['status'] = $data['status'];
     }

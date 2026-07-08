@@ -3,7 +3,6 @@
 namespace Drupal\webform\Plugin\WebformElement;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Core\Url;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -62,9 +61,7 @@ class WebformLink extends WebformCompositeBase {
       'link' => [
         '#type' => 'link',
         '#title' => $value['title'] ?: $value['url'],
-        // Url might be invalid if webform submission wasn't validated, e.g. if
-        // it was saved as a draft.
-        '#url' => $this->pathValidator->getUrlIfValid($value['url']) ?: new Url('<nolink>'),
+        '#url' => $this->pathValidator->getUrlIfValid($value['url']),
       ],
     ];
   }

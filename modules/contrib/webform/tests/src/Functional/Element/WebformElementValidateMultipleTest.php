@@ -19,7 +19,7 @@ class WebformElementValidateMultipleTest extends WebformElementBrowserTestBase {
   /**
    * Tests element validate multiple.
    */
-  public function testValidateMultiple(): void {
+  public function testValidateMultiple() {
     $assert_session = $this->assertSession();
 
     $this->drupalGet('/webform/test_element_validate_multiple');

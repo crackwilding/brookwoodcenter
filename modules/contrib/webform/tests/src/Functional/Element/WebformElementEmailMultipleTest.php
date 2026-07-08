@@ -19,7 +19,7 @@ class WebformElementEmailMultipleTest extends WebformElementBrowserTestBase {
   /**
    * Test email_multiple element.
    */
-  public function testEmailMultiple(): void {
+  public function testEmailMultiple() {
     $assert_session = $this->assertSession();
 
     // Check basic email multiple.
@@ -48,9 +48,9 @@ class WebformElementEmailMultipleTest extends WebformElementBrowserTestBase {
 
     // Check email multiple valid token email address (via #allow_tokens).
     $this->drupalGet('/webform/test_element_email_multiple');
-    $edit = ['email_multiple_advanced' => 'example@example.com, [token], [token1]@[token2].com, [token:with,comma]'];
+    $edit = ['email_multiple_advanced' => 'example@example.com, [token], [token1]@[token2].com'];
     $this->submitForm($edit, 'Submit');
-    $assert_session->responseContains("email_multiple_advanced: 'example@example.com, [token], [token1]@[token2].com, [token:with,comma]'");
+    $assert_session->responseContains("email_multiple_advanced: 'example@example.com, [token], [token1]@[token2].com'");
   }
 
 }

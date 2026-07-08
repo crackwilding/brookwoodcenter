@@ -357,7 +357,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
     // Get element validation errors.
     $element_errors = $subform_state->getErrors();
     foreach ($element_errors as $element_error) {
-      $form_state->setErrorByName('', $element_error);
+      $form_state->setErrorByName(NULL, $element_error);
     }
 
     // Stop validation if the element's properties has any errors.
@@ -434,7 +434,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
     if ($this->requestStack->getCurrentRequest()->query->get('destination')) {
       $redirect_destination = $this->getRedirectDestination();
       $destination = $redirect_destination->get();
-      $destination .= (str_contains($destination, '?') ? '&' : '?') . 'update=' . $key;
+      $destination .= (strpos($destination, '?') !== FALSE ? '&' : '?') . 'update=' . $key;
       $destination .= ($save_and_add_element) ? '&add_element=' . $add_element : '';
       $redirect_destination->set($destination);
     }
@@ -563,7 +563,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
 
     while ($parent_key) {
       $parent_element = $this->getWebform()->getElement($parent_key);
-      if (str_contains($parent_key, '01')
+      if (strpos($parent_key, '01') !== FALSE
         && $parent_element['#type'] === 'webform_table_row') {
         return $parent_element['#webform_key'];
       }
@@ -614,7 +614,7 @@ abstract class WebformUiElementFormBase extends FormBase implements WebformUiEle
 
     $increment = NULL;
     foreach ($elements as $element_key => $element) {
-      if (str_starts_with($element_key, $base_key)) {
+      if (strpos($element_key, $base_key) === 0) {
         if (preg_match('/^' . $base_key . '_(\d+)$/', $element_key, $match)) {
           $element_increment = intval($match[1]);
           if ($element_increment > $increment) {

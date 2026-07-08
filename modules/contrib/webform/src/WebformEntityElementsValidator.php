@@ -441,7 +441,7 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
             '#items' => $items,
           ],
         ];
-        $messages[] = $this->renderer->renderInIsolation($build);
+        $messages[] = $this->renderer->renderPlain($build);
       }
       return $messages;
     }
@@ -534,8 +534,8 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
    * @see \Drupal\webform\Entity\Webform::getSubmissionForm()
    */
   protected function validatePages() {
-    if (str_contains($this->elementsRaw, "'#type': webform_card")
-      && str_contains($this->elementsRaw, "'#type': webform_wizard_page")) {
+    if (strpos($this->elementsRaw, "'#type': webform_card") !== FALSE
+      && strpos($this->elementsRaw, "'#type': webform_wizard_page") !== FALSE) {
       return [$this->t('Pages and cards cannot be used in the same webform. Please remove or convert the pages/cards to the same element type.')];
     }
     else {
@@ -561,16 +561,15 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
     set_error_handler('_webform_entity_element_validate_rendering_error_handler');
     set_exception_handler('_webform_entity_element_validate_rendering_exception_handler');
     try {
-      // Render the elements as a form.
       /** @var \Drupal\webform\WebformSubmissionInterface $webform_submission */
       $webform_submission = $this->entityTypeManager
         ->getStorage('webform_submission')
         ->create(['webform' => $this->webform]);
+
       $form_object = $this->entityTypeManager->getFormObject('webform_submission', 'add');
       $form_object->setEntity($webform_submission);
       $form_state = (new FormState())->setFormState([]);
-      $form = $this->formBuilder->buildForm($form_object, $form_state);
-      $this->renderer->renderInIsolation($form);
+      $this->formBuilder->buildForm($form_object, $form_state);
       $message = NULL;
     }
     // PHP 7 introduces Throwable, which covers both Error and
@@ -596,7 +595,7 @@ class WebformEntityElementsValidator implements WebformEntityElementsValidatorIn
           '#items' => [$message],
         ],
       ];
-      return $this->renderer->renderInIsolation($build);
+      return $this->renderer->renderPlain($build);
     }
 
     return $message;

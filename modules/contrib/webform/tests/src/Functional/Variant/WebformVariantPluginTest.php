@@ -24,7 +24,7 @@ class WebformVariantPluginTest extends WebformBrowserTestBase {
    *
    * @see \Drupal\webform\Entity\Webform::onDependencyRemoval
    */
-  public function testWebformVariantDependencies(): void {
+  public function testWebformVariantDependencies() {
     $webform = Webform::load('contact');
 
     // Check initial dependencies.

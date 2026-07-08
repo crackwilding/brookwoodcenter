@@ -2,7 +2,6 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use Drupal\Core\Url as CoreUrl;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -63,9 +62,7 @@ class Url extends TextBase {
         return [
           '#type' => 'link',
           '#title' => $value,
-          // Url might be invalid if webform submission wasn't validated, e.g. if
-          // it was saved as a draft.
-          '#url' => $this->pathValidator->getUrlIfValid($value) ?: new CoreUrl('<nolink>'),
+          '#url' => $this->pathValidator->getUrlIfValid($value),
         ];
 
       default:

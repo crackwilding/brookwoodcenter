@@ -15,7 +15,7 @@ class WebformSettingsStatusTest extends WebformBrowserTestBase {
   /**
    * Tests default status.
    */
-  public function testStatus(): void {
+  public function testStatus() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

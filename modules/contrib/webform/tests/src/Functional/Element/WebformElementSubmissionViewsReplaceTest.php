@@ -26,7 +26,7 @@ class WebformElementSubmissionViewsReplaceTest extends WebformElementBrowserTest
   /**
    * Test webform submission views replace element.
    */
-  public function testSubmissionViewsReplace(): void {
+  public function testSubmissionViewsReplace() {
     $assert_session = $this->assertSession();
 
     // Check rendering.

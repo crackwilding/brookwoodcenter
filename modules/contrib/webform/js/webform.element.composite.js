@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Initialize composite element builder.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformElementComposite = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-composite-types', '[data-composite-types]')).each(function () {
         var $element = $(this);
         var $type = $element.closest('tr').find('.js-webform-composite-type');

@@ -2,14 +2,14 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Core\Render\Element\RenderElementBase;
+use Drupal\Core\Render\Element\RenderElement;
 
 /**
  * Provides a render element for webform markup.
  *
  * @FormElement("webform_markup")
  */
-class WebformMarkup extends RenderElementBase {
+class WebformMarkup extends RenderElement {
 
   /**
    * {@inheritdoc}

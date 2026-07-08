@@ -109,9 +109,8 @@ class WebformSubmissionNotesForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $status = parent::save($form, $form_state);
+    parent::save($form, $form_state);
     $this->messenger()->addStatus($this->t('Submission @sid notes saved.', ['@sid' => '#' . $this->entity->id()]));
-    return $status;
   }
 
   /**

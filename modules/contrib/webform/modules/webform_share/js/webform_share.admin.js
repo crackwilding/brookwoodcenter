@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Webform share admin copy.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformShareAdminCopy = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-share-admin-copy', '.js-webform-share-admin-copy', context)).each(function () {
         var $container = $(this);
         var $textarea = $container.find('textarea');

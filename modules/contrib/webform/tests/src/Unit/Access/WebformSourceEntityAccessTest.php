@@ -17,7 +17,7 @@ class WebformSourceEntityAccessTest extends WebformAccessTestBase {
    *
    * @covers ::checkEntityResultsAccess
    */
-  public function testWebformSourceEntityAccess(): void {
+  public function testWebformSourceEntityAccess() {
     // Mock anonymous account.
     $anonymous_account = $this->mockAccount();
 
@@ -46,10 +46,10 @@ class WebformSourceEntityAccessTest extends WebformAccessTestBase {
     $entity_reference_manager = $this->createMock('Drupal\webform\WebformEntityReferenceManagerInterface');
     $entity_reference_manager->expects($this->any())
       ->method('getWebform')
-      ->willReturnMap([
+      ->will($this->returnValueMap([
         [$node, NULL],
         [$webform_node, $webform],
-      ]);
+      ]));
     $this->container->set('webform.entity_reference_manager', $entity_reference_manager);
 
     /* ********************************************************************** */

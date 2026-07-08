@@ -54,7 +54,6 @@ class WebformImageSelectImagesForm extends EntityForm {
     switch ($this->operation) {
       case 'duplicate':
         $form['#title'] = $this->t("Duplicate '@label' images", ['@label' => $webform_images->label()]);
-        $form['#attached']['library'][] = 'webform/webform.admin.machine-name';
         break;
 
       case 'edit':
@@ -179,7 +178,7 @@ class WebformImageSelectImagesForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     /** @var \Drupal\webform_image_select\WebformImageSelectImagesInterface $images */
     $images = $this->getEntity();
-    $status = $images->save();
+    $images->save();
 
     $context = [
       '@label' => $images->label(),
@@ -192,8 +191,6 @@ class WebformImageSelectImagesForm extends EntityForm {
     ]));
 
     $form_state->setRedirect('entity.webform_image_select_images.collection');
-
-    return $status;
   }
 
   /**

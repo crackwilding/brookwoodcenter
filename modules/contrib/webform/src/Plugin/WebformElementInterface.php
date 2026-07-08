@@ -258,16 +258,13 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
   public function hasMultipleWrapper();
 
   /**
-   * Returns information about the number of allowed values for an element.
+   * Checks if the element value has multiple values.
    *
    * @param array $element
    *   An element.
    *
-   * @return bool|int
-   *   TRUE if the element value allows an unlimited number of values. FALSE if
-   *   the element only allows a single value. If the element allows a limited
-   *   number of values, an integer indicating the number of allowed values is
-   *   returned.
+   * @return bool
+   *   TRUE if the element value has multiple values.
    */
   public function hasMultipleValues(array $element);
 
@@ -564,8 +561,8 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
   /**
    * Get an element's default single value format name.
    *
-   * @return string|null
-   *   An element's default single value format name or NULL.
+   * @return string
+   *   An element's default single value format name.
    */
   public function getItemDefaultFormat();
 
@@ -702,6 +699,9 @@ interface WebformElementInterface extends PluginInspectionInterface, PluginFormI
    *   The current state of the form.
    * @param array $export_options
    *   An associative array of default values.
+   *
+   * @return array
+   *   An associative array contain an element's export option webform.
    */
   public function buildExportOptionsForm(array &$form, FormStateInterface $form_state, array $export_options);
 

@@ -3,7 +3,7 @@
 namespace Drupal\webform;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Serialization\Yaml;
 
 /**
  * Defines a class to translate webform Lingotek integration.
@@ -66,25 +66,21 @@ class WebformTranslationLingotekManager implements WebformTranslationLingotekMan
       case 'webform_options_custom':
         // Convert options YAML string to an associative array.
         $options = Yaml::decode($source_data['options']);
-        if ($options) {
-          // Extract optgroups from the options and append them as '_optgroups_'
-          // to the options so that the optgroups can be translated.
-          $optgroups = [];
-          foreach ($options as $option_value => $option_text) {
-            if (is_array($option_text)) {
-              $optgroups[$option_value] = $option_value;
-            }
-          }
-          if ($optgroups) {
-            $options['_optgroups_'] = $optgroups;
-          }
 
-          // Update source data's options.
-          $source_data['options'] = $options;
+        // Extract optgroups from the options and append them as '_optgroups_'
+        // to the options so that the optgroups can be translated.
+        $optgroups = [];
+        foreach ($options as $option_value => $option_text) {
+          if (is_array($option_text)) {
+            $optgroups[$option_value] = $option_value;
+          }
         }
-        else {
-          unset($source_data['options']);
+        if ($optgroups) {
+          $options['_optgroups_'] = $optgroups;
         }
+
+        // Update source data's options.
+        $source_data['options'] = $options;
         break;
     }
   }
@@ -126,33 +122,31 @@ class WebformTranslationLingotekManager implements WebformTranslationLingotekMan
 
       case 'webform_options':
       case 'webform_options_custom':
-        if (isset($data['options'])) {
-          $options = $data['options'];
-          // If '_optgroups_' are defined we need to translate the optgroups.
-          if (isset($options['_optgroups_'])) {
-            // Get optgroup from options.
-            $optgroups = $options['_optgroups_'];
-            unset($options['_optgroups_']);
+        $options = $data['options'];
+        // If '_optgroups_' are defined we need to translate the optgroups.
+        if (isset($options['_optgroups_'])) {
+          // Get optgroup from options.
+          $optgroups = $options['_optgroups_'];
+          unset($options['_optgroups_']);
 
-            // Build translated optgroup options.
-            $optgroups_options = [];
-            foreach ($options as $option_value => $option_text) {
-              if (is_array($option_text)) {
-                $optgroups_options[$optgroups[$option_value]] = $option_text;
-              }
-              else {
-                $optgroup_options[$option_value] = $option_text;
-              }
+          // Build translated optgroup options.
+          $optgroups_options = [];
+          foreach ($options as $option_value => $option_text) {
+            if (is_array($option_text)) {
+              $optgroups_options[$optgroups[$option_value]] = $option_text;
             }
-            // Replace options with optgroup options.
-            $options = $optgroups_options;
+            else {
+              $optgroup_options[$option_value] = $option_text;
+            }
           }
-
-          /** @var \Drupal\webform\WebformOptionsInterface $translation */
-          // Convert options associative array back to YAML string.
-          $translation->setOptions($options);
-          $data['options'] = Yaml::encode($options);
+          // Replace options with optgroup options.
+          $options = $optgroups_options;
         }
+
+        /** @var \Drupal\webform\WebformOptionsInterface $translation */
+        // Convert options associative array back to YAML string.
+        $translation->setOptions($options);
+        $data['options'] = Yaml::encode($options);
         break;
     }
   }

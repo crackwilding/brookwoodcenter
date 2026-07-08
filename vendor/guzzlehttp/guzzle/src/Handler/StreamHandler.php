@@ -344,12 +344,7 @@ class StreamHandler
             $methods = \array_flip(\get_class_methods(__CLASS__));
         }
 
-        $uri = $request->getUri();
-        $scheme = $uri->getScheme();
-        if ($scheme === '') {
-            throw new RequestException('URI must include a scheme and host. Use an absolute URI, a network-path reference starting with //, or configure a base_uri.', $request);
-        }
-
+        $scheme = $request->getUri()->getScheme();
         if (!\in_array($scheme, ['http', 'https'], true)) {
             throw new RequestException(\sprintf("The scheme '%s' is not supported.", $scheme), $request);
         }
@@ -357,10 +352,6 @@ class StreamHandler
         $protocols = Utils::normalizeProtocols($options['protocols'] ?? ['http', 'https']);
         if (!\in_array($scheme, $protocols, true)) {
             throw new RequestException(\sprintf('The scheme "%s" is not allowed by the protocols request option.', $scheme), $request);
-        }
-
-        if ($uri->getHost() === '') {
-            throw new RequestException('URI must include a scheme and host. Use an absolute URI, a network-path reference starting with //, or configure a base_uri.', $request);
         }
 
         // HTTP/1.1 streams using the PHP stream wrapper require a
@@ -382,8 +373,6 @@ class StreamHandler
         if (isset($options['on_headers']) && !\is_callable($options['on_headers'])) {
             throw new \InvalidArgumentException('on_headers must be callable');
         }
-
-        self::assertTlsVersionRangeForOptions($options);
 
         if (!empty($options)) {
             foreach ($options as $key => $value) {
@@ -668,7 +657,6 @@ class StreamHandler
                 'crypto_method' => 'the "crypto_method" request option',
                 'local_cert' => 'the "cert" request option',
                 'local_pk' => 'the "ssl_key" request option',
-                'max_proto_version' => 'the "crypto_method_max" request option',
                 'min_proto_version' => 'the "crypto_method" request option',
                 'passphrase' => 'the "cert" or "ssl_key" request option',
                 'peer_name' => 'the request URI',
@@ -870,26 +858,6 @@ class StreamHandler
         }
 
         throw new \InvalidArgumentException('Invalid crypto_method request option: unknown version provided');
-    }
-
-    /**
-     * @param mixed $value as passed via Request transfer options.
-     */
-    private function add_crypto_method_max(RequestInterface $request, array &$options, $value, array &$params): void
-    {
-        $options['ssl']['max_proto_version'] = TlsVersion::streamProtocolVersion('crypto_method_max', $value);
-    }
-
-    private static function assertTlsVersionRangeForOptions(array $options): void
-    {
-        if (!isset($options['crypto_method_max'])) {
-            return;
-        }
-
-        TlsVersion::assertRange(
-            $options['crypto_method'] ?? null,
-            $options['crypto_method_max']
-        );
     }
 
     /**

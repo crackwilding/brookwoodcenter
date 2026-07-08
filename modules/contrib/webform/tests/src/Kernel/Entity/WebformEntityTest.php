@@ -26,7 +26,7 @@ class WebformEntityTest extends KernelTestBase {
   /**
    * Tests some of the methods.
    */
-  public function testWebformMethods(): void {
+  public function testWebformMethods() {
     $this->installEntitySchema('path_alias');
     $this->installSchema('webform', ['webform']);
     $this->installConfig('webform');
@@ -332,7 +332,7 @@ class WebformEntityTest extends KernelTestBase {
   /**
    * Test paths.
    */
-  public function testPaths(): void {
+  public function testPaths() {
     $this->installEntitySchema('path_alias');
     $this->installSchema('webform', ['webform']);
     $this->installConfig('webform');
@@ -349,7 +349,7 @@ class WebformEntityTest extends KernelTestBase {
   /**
    * Test elements CRUD operations.
    */
-  public function testElementsCrud(): void {
+  public function testElementsCrud() {
     $this->installEntitySchema('path_alias');
     $this->installSchema('webform', ['webform']);
     $this->installEntitySchema('webform_submission');

@@ -59,10 +59,10 @@ class WebformTemplatesSubmissionPreviewForm extends WebformSubmissionForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if ($this->isDialog()) {
       $form_state->clearErrors();
-      return $this->getEntity();
     }
-
-    return parent::validateForm($form, $form_state);
+    else {
+      parent::validateForm($form, $form_state);
+    }
   }
 
 }

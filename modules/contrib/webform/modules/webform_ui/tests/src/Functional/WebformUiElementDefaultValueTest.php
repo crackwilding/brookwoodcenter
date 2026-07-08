@@ -21,7 +21,7 @@ class WebformUiElementDefaultValueTest extends WebformBrowserTestBase {
   /**
    * Tests element.
    */
-  public function testElementDefaultValue(): void {
+  public function testElementDefaultValue() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

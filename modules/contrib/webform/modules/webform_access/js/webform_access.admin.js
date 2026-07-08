@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal) {
+
+  'use strict';
+
   /**
    * Initialize webform access group administer permission toggle.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformAccessGroupPermissions = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-access-group-permissions', '#edit-permissions', context)).each(function () {
         var $permissions = $(this);
         var $checkbox = $permissions.find('input[name="permissions[administer]"]');

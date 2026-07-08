@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   var isChrome = (/chrom(e|ium)/.test(window.navigator.userAgent.toLowerCase()));
 
   /**
@@ -12,7 +15,7 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformInputHide = {
-    attach(context) {
+    attach: function (context) {
       // Apply chrome fix to prevent password input from being autofilled.
       // @see https://stackoverflow.com/questions/15738259/disabling-chrome-autofill
       if (isChrome) {

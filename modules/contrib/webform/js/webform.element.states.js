@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, drupalSettings, once) {
+
+  'use strict';
+
   /**
    * Element #states builder.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformElementStates = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-element-states-condition', '.webform-states-table--condition', context)).each(function () {
         var $condition = $(this);
         var $selector = $condition.find('.webform-states-table--selector select');

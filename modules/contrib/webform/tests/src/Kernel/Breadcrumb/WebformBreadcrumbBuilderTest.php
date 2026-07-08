@@ -6,9 +6,6 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Tests\UnitTestCase;
-use Drupal\webform\WebformInterface;
-use Drupal\webform\WebformSubmissionInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -75,37 +72,37 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Webform.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\webform\WebformInterface
+   * @var \Drupal\webform\WebformInterface
    */
-  protected WebformInterface|MockObject $webform;
+  protected $webform;
 
   /**
    * Webform with access.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\webform\WebformInterface
+   * @var \Drupal\webform\WebformInterface
    */
-  protected WebformInterface|MockObject $webformAccess;
+  protected $webformAccess;
 
   /**
    * Webform with access and is template.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\webform\WebformInterface
+   * @var \Drupal\webform\WebformInterface
    */
-  protected WebformInterface|MockObject $webformTemplate;
+  protected $webformTemplate;
 
   /**
    * Webform submission.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\webform\WebformSubmissionInterface
+   * @var \Drupal\webform\WebformSubmissionInterface
    */
-  protected WebformSubmissionInterface|MockObject $webformSubmission;
+  protected $webformSubmission;
 
   /**
    * Webform submission with access.
    *
-   * @var \PHPUnit\Framework\MockObject\MockObject|\Drupal\webform\WebformSubmissionInterface
+   * @var \Drupal\webform\WebformSubmissionInterface
    */
-  protected WebformSubmissionInterface|MockObject $webformSubmissionAccess;
+  protected $webformSubmissionAccess;
 
   /**
    * {@inheritdoc}
@@ -134,7 +131,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
     $this->moduleHandler->expects($this->any())
       ->method('moduleExists')
       ->with('webform_templates')
-      ->willReturn(TRUE);
+      ->will($this->returnValue(TRUE));
 
     // Add a translation manager for t().
     $translation_manager = $this->getStringTranslationStub();
@@ -165,15 +162,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
    * @dataProvider providerTestApplies
    * @covers ::applies
    */
-  public function testApplies(bool $expected, ?string $route_name = NULL, array $parameter_map = []): void {
-    foreach ($parameter_map as &$parameter_map_item) {
-      foreach ($parameter_map_item as $index => $parameter_name) {
-        if (is_callable($parameter_name)) {
-          $parameter_map_item[$index] = $parameter_name($this);
-        }
-      }
-    }
-    unset($parameter_map_item);
+  public function testApplies($expected, $route_name = NULL, array $parameter_map = []) {
     $route_match = $this->getMockRouteMatch($route_name, $parameter_map);
     $this->assertEquals($expected, $this->breadcrumbBuilder->applies($route_match));
   }
@@ -184,7 +173,8 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
    * @return array
    *   Array of datasets for testApplies().
    */
-  public static function providerTestApplies(): array {
+  public function providerTestApplies() {
+    $this->setUpMockEntities();
     $tests = [
       [FALSE],
       [FALSE, 'not'],
@@ -201,11 +191,11 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
       [TRUE, 'entity.node.webform.user.submissions'],
       // Submissions.
       [FALSE, 'entity.webform.user.submission'],
-      [TRUE, 'entity.webform.user.submission', [['webform_submission', static fn (self $testcase) => $testcase->mockWebformSubmissionAccess()]]],
-      [TRUE, 'webform', [['webform_submission', static fn (self $testcase) => $testcase->mockWebformSubmissionAccess()]]],
+      [TRUE, 'entity.webform.user.submission', [['webform_submission', $this->webformSubmissionAccess]]],
+      [TRUE, 'webform', [['webform_submission', $this->webformSubmissionAccess]]],
       // Translations.
       [FALSE, 'entity.webform.config_translation_overview'],
-      [TRUE, 'entity.webform.config_translation_overview', [['webform', static fn (self $testcase) => $testcase->mockWebformAccess()]]],
+      [TRUE, 'entity.webform.config_translation_overview', [['webform', $this->webformAccess]]],
     ];
     return $tests;
   }
@@ -213,7 +203,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Tests WebformBreadcrumbBuilder::type.
    *
-   * @param string|null $expected
+   * @param bool $expected
    *   WebformBreadcrumbBuilder::type set via
    *   WebformBreadcrumbBuilder::applies().
    * @param string|null $route_name
@@ -224,15 +214,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
    * @dataProvider providerTestType
    * @covers ::applies
    */
-  public function testType(?string $expected, ?string $route_name = NULL, array $parameter_map = []): void {
-    foreach ($parameter_map as &$parameter_map_item) {
-      foreach ($parameter_map_item as $index => $parameter_name) {
-        if (is_callable($parameter_name)) {
-          $parameter_map_item[$index] = $parameter_name($this);
-        }
-      }
-    }
-    unset($parameter_map_item);
+  public function testType($expected, $route_name = NULL, array $parameter_map = []) {
     $route_match = $this->getMockRouteMatch($route_name, $parameter_map);
     $this->breadcrumbBuilder->applies($route_match);
     $this->assertEquals($expected, $this->breadcrumbBuilder->getType());
@@ -244,7 +226,8 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
    * @return array
    *   Array of datasets for testType().
    */
-  public static function providerTestType(): array {
+  public function providerTestType() {
+    $this->setUpMockEntities();
     $tests = [
       [NULL],
       // Source entity.
@@ -261,15 +244,15 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
       ['webform_source_entity', 'entity.{source_entity}.webform.user.submissions'],
       ['webform_source_entity', 'entity.node.webform.user.submissions'],
       // User submission.
-      ['webform_user_submission', 'entity.webform.user.submission', [['webform_submission', static fn (self $testcase) => $testcase->mockWebformSubmission()]]],
+      ['webform_user_submission', 'entity.webform.user.submission', [['webform_submission', $this->webformSubmission]]],
       // Submission.
-      [NULL, 'entity.webform_submission.canonical', [['webform_submission', static fn (self $testcase) => $testcase->mockWebformSubmission()]]],
-      ['webform_submission', 'entity.webform_submission.canonical', [['webform_submission', static fn (self $testcase) => $testcase->mockWebformSubmissionAccess()]]],
+      [NULL, 'entity.webform_submission.canonical', [['webform_submission', $this->webformSubmission]]],
+      ['webform_submission', 'entity.webform_submission.canonical', [['webform_submission', $this->webformSubmissionAccess]]],
       // Webform.
-      [NULL, 'entity.webform.canonical', [['webform', static fn (self $testcase) => $testcase->mockWebform()]]],
-      ['webform', 'entity.webform.canonical', [['webform', static fn (self $testcase) => $testcase->mockWebformAccess()]]],
+      [NULL, 'entity.webform.canonical', [['webform', $this->webform]]],
+      ['webform', 'entity.webform.canonical', [['webform', $this->webformAccess]]],
       // Webform template.
-      ['webform_template', 'entity.webform.canonical', [['webform', static fn (self $testcase) => $testcase->mockWebformTemplate()]]],
+      ['webform_template', 'entity.webform.canonical', [['webform', $this->webformTemplate]]],
     ];
     return $tests;
   }
@@ -277,7 +260,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build source entity breadcrumbs.
    */
-  public function testBuildSourceEntity(): void {
+  public function testBuildSourceEntity() {
     $this->setSourceEntity($this->nodeAccess);
     $route_match = $this->getMockRouteMatch('entity.node.webform', [
       ['webform', $this->webformAccess],
@@ -293,7 +276,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build source entity submissions breadcrumbs.
    */
-  public function testBuildSourceEntitySubmissions(): void {
+  public function testBuildSourceEntitySubmissions() {
     $this->setSourceEntity($this->nodeAccess);
     $route_match = $this->getMockRouteMatch('entity.node.webform.user.submission', [
       ['webform_submission', $this->webformSubmissionAccess],
@@ -311,7 +294,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build source entity submissions breadcrumbs.
    */
-  public function testBuildSourceEntityResults(): void {
+  public function testBuildSourceEntityResults() {
     $this->setSourceEntity($this->nodeAccess);
     $route_match = $this->getMockRouteMatch('entity.node.webform_submission.canonical', [
       ['webform_submission', $this->webformSubmissionAccess],
@@ -329,14 +312,14 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build source entity submissions breadcrumbs.
    */
-  public function testBuildSourceEntityUserResults(): void {
+  public function testBuildSourceEntityUserResults() {
     $this->setSourceEntity($this->node);
     $webform_submission_access = $this->createMock('Drupal\webform\WebformSubmissionInterface');
     $webform_submission_access->expects($this->any())
       ->method('access')
-      ->willReturnCallback(function ($operation) {
+      ->will($this->returnCallback(function ($operation) {
         return ($operation === 'view_own');
-      });
+      }));
     $route_match = $this->getMockRouteMatch('entity.node.webform_submission.canonical', [
       ['webform_submission', $webform_submission_access],
       ['webform', $this->webform],
@@ -353,7 +336,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build templates breadcrumbs.
    */
-  public function testBuildTemplates(): void {
+  public function testBuildTemplates() {
     $route_match = $this->getMockRouteMatch('entity.webform.canonical', [
       ['webform', $this->webformTemplate],
     ]);
@@ -370,7 +353,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build element breadcrumbs.
    */
-  public function testBuildElements(): void {
+  public function testBuildElements() {
     $route_match = $this->getMockRouteMatch('entity.webform_ui.element', [
       ['webform', $this->webform],
     ]);
@@ -388,7 +371,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build handler breadcrumbs.
    */
-  public function testBuildHandlers(): void {
+  public function testBuildHandlers() {
     // Check source entity.
     $route_match = $this->getMockRouteMatch('entity.webform.handler.add_form', [
       ['webform', $this->webform],
@@ -407,7 +390,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build submissions breadcrumbs.
    */
-  public function testBuildSubmissions(): void {
+  public function testBuildSubmissions() {
     $route_match = $this->getMockRouteMatch('entity.webform_submission.canonical', [
       ['webform_submission', $this->webformSubmissionAccess],
     ]);
@@ -425,7 +408,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build user submissions breadcrumbs.
    */
-  public function testBuildUserSubmissions(): void {
+  public function testBuildUserSubmissions() {
     // Check without view own access.
     $route_match = $this->getMockRouteMatch('entity.webform.user.submission', [
       ['webform_submission', $this->webformSubmission],
@@ -450,7 +433,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
   /**
    * Test build user submission breadcrumbs.
    */
-  public function testBuildUserSubmission(): void {
+  public function testBuildUserSubmission() {
     $route_match = $this->getMockRouteMatch('entity.webform.user.submissions', [
       ['webform', $this->webform],
     ]);
@@ -488,7 +471,7 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
     // Set the node as the request handler's source entity.
     $this->requestHandler->expects($this->any())
       ->method('getCurrentSourceEntity')
-      ->willReturn($entity);
+      ->will($this->returnValue($entity));
   }
 
   /**
@@ -506,10 +489,10 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
     $route_match = $this->createMock('Drupal\Core\Routing\RouteMatchInterface');
     $route_match->expects($this->any())
       ->method('getRouteName')
-      ->willReturn($route_name);
+      ->will($this->returnValue($route_name));
     $route_match->expects($this->any())
       ->method('getParameter')
-      ->willReturnMap($parameter_map);
+      ->will($this->returnValueMap($parameter_map));
 
     /** @var \Drupal\Core\Routing\RouteMatchInterface $route_match */
     return $route_match;
@@ -531,128 +514,59 @@ class WebformBreadcrumbBuilderTest extends UnitTestCase {
     $this->node = $this->createMock('Drupal\node\NodeInterface');
     $this->node->expects($this->any())
       ->method('label')
-      ->willReturn('{node}');
+      ->will($this->returnValue('{node}'));
     $this->node->expects($this->any())
       ->method('getEntityTypeId')
-      ->willReturn('node');
+      ->will($this->returnValue('node'));
     $this->node->expects($this->any())
       ->method('id')
-      ->willReturn('1');
+      ->will($this->returnValue('1'));
     $this->node->expects($this->any())
       ->method('toLink')
-      ->willReturn(Link::createFromRoute('{node}', 'entity.node.canonical', ['node' => 1]));
+      ->will($this->returnValue(Link::createFromRoute('{node}', 'entity.node.canonical', ['node' => 1])));
 
     $this->nodeAccess = clone $this->node;
     $this->nodeAccess->expects($this->any())
       ->method('access')
-      ->willReturn(TRUE);
+      ->will($this->returnValue(TRUE));
 
     /* webform entities */
 
     $this->webform = $this->createMock('Drupal\webform\WebformInterface');
     $this->webform->expects($this->any())
       ->method('label')
-      ->willReturn('{webform}');
+      ->will($this->returnValue('{webform}'));
     $this->webform->expects($this->any())
       ->method('id')
-      ->willReturn(1);
+      ->will($this->returnValue(1));
 
     $this->webformAccess = clone $this->webform;
     $this->webformAccess->expects($this->any())
       ->method('access')
-      ->willReturn(TRUE);
+      ->will($this->returnValue(TRUE));
 
     $this->webformTemplate = clone $this->webformAccess;
     $this->webformTemplate->expects($this->any())
       ->method('isTemplate')
-      ->willReturn(TRUE);
+      ->will($this->returnValue(TRUE));
 
     /* webform submission entities */
 
     $this->webformSubmission = $this->createMock('Drupal\webform\WebformSubmissionInterface');
     $this->webformSubmission->expects($this->any())
       ->method('getWebform')
-      ->willReturn($this->webform);
+      ->will($this->returnValue($this->webform));
     $this->webformSubmission->expects($this->any())
       ->method('label')
-      ->willReturn('{webform_submission}');
+      ->will($this->returnValue('{webform_submission}'));
     $this->webformSubmission->expects($this->any())
       ->method('id')
-      ->willReturn(1);
+      ->will($this->returnValue(1));
 
     $this->webformSubmissionAccess = clone $this->webformSubmission;
     $this->webformSubmissionAccess->expects($this->any())
       ->method('access')
-      ->willReturn(TRUE);
-  }
-
-  /**
-   * Returns a Webform mock.
-   */
-  protected function mockWebform(): WebformInterface|MockObject {
-    $mock = $this->createMock(WebformInterface::class);
-    $mock
-      ->method('label')
-      ->willReturn('{webform}');
-    $mock
-      ->method('id')
-      ->willReturn(1);
-
-    return $mock;
-  }
-
-  /**
-   * Returns a Webform mock with access.
-   */
-  protected function mockWebformAccess(): WebformInterface|MockObject {
-    $mock = clone $this->webform;
-    $mock
-      ->method('access')
-      ->willReturn(TRUE);
-
-    return $mock;
-  }
-
-  /**
-   * Returns Webform mock with access and is template.
-   */
-  protected function mockWebformTemplate(): WebformInterface|MockObject {
-    $mock = clone $this->webformAccess;
-    $mock
-      ->method('isTemplate')
-      ->willReturn(TRUE);
-
-    return $mock;
-  }
-
-  /**
-   * Returns Webform submission mock.
-   */
-  protected function mockWebformSubmission(): WebformSubmissionInterface|MockObject {
-    $mock = $this->createMock(WebformSubmissionInterface::class);
-    $mock
-      ->method('getWebform')
-      ->willReturn($this->webform);
-    $mock
-      ->method('label')
-      ->willReturn('{webform_submission}');
-    $mock
-      ->method('id')
-      ->willReturn(1);
-
-    return $mock;
-  }
-
-  /**
-   * Returns Webform submission mock with access.
-   */
-  protected function mockWebformSubmissionAccess(): WebformSubmissionInterface|MockObject {
-    $mock = clone $this->webformSubmission;
-    $mock
-      ->method('access')
-      ->willReturn(TRUE);
-
-    return $mock;
+      ->will($this->returnValue(TRUE));
   }
 
 }

@@ -6,9 +6,6 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\Random;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,7 +18,7 @@ class WebformTestHandlerRemotePostClient extends Client {
    * {@inheritdoc}
    */
   public function request($method, $uri = '', array $options = []): ResponseInterface {
-    if (!str_contains($uri, 'http://webform-test-handler-remote-post/')) {
+    if (strpos($uri, 'http://webform-test-handler-remote-post/') === FALSE) {
       return parent::request($method, $uri, $options);
     }
 
@@ -68,13 +65,6 @@ class WebformTestHandlerRemotePostClient extends Client {
           'options' => $options,
         ];
         return new Response($status, $headers, Json::encode($json));
-
-      // Guzzle Exceptions.
-      case 'RequestException':
-        throw new RequestException('This is a RequestException message.', new Request($method, $uri));
-
-      case 'ConnectException':
-        throw new ConnectException('This is a ConnectException message.', new Request($method, $uri));
 
       case 201:
         $status = 201;

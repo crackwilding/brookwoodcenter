@@ -14,6 +14,8 @@ interface WebformImageSelectImagesInterface extends ConfigEntityInterface {
    *
    * @param array $images
    *   An renderable array of images.
+   *
+   * @return $this
    */
   public function setImages(array $images);
 

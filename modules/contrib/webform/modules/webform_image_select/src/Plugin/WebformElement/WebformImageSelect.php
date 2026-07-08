@@ -117,7 +117,7 @@ class WebformImageSelect extends Select {
         $src = $element['#images'][$value]['src'];
 
         // Always use absolute URLs for the src so that it will load via email.
-        if (str_starts_with($src, '/')) {
+        if (strpos($src, '/') === 0) {
           $src = $this->request->getSchemeAndHttpHost() . $src;
         }
 
@@ -144,7 +144,7 @@ class WebformImageSelect extends Select {
         }
 
         // For the Results table always just return the image with tooltip.
-        if (str_contains($this->routeMatch->getRouteName(), 'webform.results_submissions')) {
+        if (strpos($this->routeMatch->getRouteName(), 'webform.results_submissions') !== FALSE) {
           $image['#attached']['library'][] = 'webform/webform.tooltip';
           $image['#attributes']['class'] = ['js-webform-tooltip-link'];
           return $image;

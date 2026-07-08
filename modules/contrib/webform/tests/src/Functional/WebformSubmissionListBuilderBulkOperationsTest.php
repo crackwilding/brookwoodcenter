@@ -28,7 +28,7 @@ class WebformSubmissionListBuilderBulkOperationsTest extends WebformBrowserTestB
   /**
    * Tests results.
    */
-  public function testResults(): void {
+  public function testResults() {
     $assert_session = $this->assertSession();
 
     $admin_submission_user = $this->drupalCreateUser([

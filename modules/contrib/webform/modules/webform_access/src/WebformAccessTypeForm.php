@@ -63,7 +63,7 @@ class WebformAccessTypeForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     /** @var \Drupal\webform_access\WebformAccessTypeInterface $webform_access_type */
     $webform_access_type = $this->getEntity();
-    $status = $webform_access_type->save();
+    $webform_access_type->save();
 
     $context = [
       '@label' => $webform_access_type->label(),
@@ -74,8 +74,6 @@ class WebformAccessTypeForm extends EntityForm {
     $this->messenger()->addStatus($this->t('Access type %label saved.', ['%label' => $webform_access_type->label()]));
 
     $form_state->setRedirect('entity.webform_access_type.collection');
-
-    return $status;
   }
 
 }

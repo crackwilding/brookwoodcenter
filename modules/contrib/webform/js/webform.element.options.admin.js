@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Attach handlers to options (admin) element.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformOptionsAdmin = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-options-sync', '.js-webform-options-sync', context)).each(function () {
         // Target input name and not id because the id will be changing via
         // Ajax callbacks.

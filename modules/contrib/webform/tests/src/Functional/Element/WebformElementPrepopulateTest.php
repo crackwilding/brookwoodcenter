@@ -32,7 +32,7 @@ class WebformElementPrepopulateTest extends WebformElementBrowserTestBase {
   /**
    * Test element prepopulate.
    */
-  public function testElementPrepopulate(): void {
+  public function testElementPrepopulate() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_element_prepopulate');

@@ -34,7 +34,7 @@
 /**
  * Help play button.
  */
-.button.button-webform-play::before {
+.button.button-webform-play:before {
   content: "► ";
   font-size: 0.8em;
 }

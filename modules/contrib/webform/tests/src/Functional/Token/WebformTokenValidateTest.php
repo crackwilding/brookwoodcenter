@@ -21,7 +21,7 @@ class WebformTokenValidateTest extends WebformBrowserTestBase {
   /**
    * Test webform token element validation.
    */
-  public function testWebformTokenValidate(): void {
+  public function testWebformTokenValidate() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

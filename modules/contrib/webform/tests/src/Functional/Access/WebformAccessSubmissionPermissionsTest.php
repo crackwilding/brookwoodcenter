@@ -16,7 +16,7 @@ class WebformAccessSubmissionPermissionsTest extends WebformBrowserTestBase {
   /**
    * Test webform submission access permissions.
    */
-  public function testPermissions(): void {
+  public function testPermissions() {
     global $base_path;
 
     $assert_session = $this->assertSession();

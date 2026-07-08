@@ -119,7 +119,7 @@ class WebformTokenManager implements WebformTokenManagerInterface {
     }
 
     // Most strings won't contain tokens so let's check and return ASAP.
-    if (!is_string($text) || !str_contains($text, '[')) {
+    if (!is_string($text) || strpos($text, '[') === FALSE) {
       return $text;
     }
 
@@ -138,7 +138,7 @@ class WebformTokenManager implements WebformTokenManagerInterface {
     // anonymous user properties from being displayed.
     // For example, the [current-user:display-name] token will return
     // 'Anonymous', which is not an expected behavior.
-    if ($this->currentUser->isAnonymous() && str_contains($text, '[current-user:')) {
+    if ($this->currentUser->isAnonymous() && strpos($text, '[current-user:') !== FALSE) {
       $text = preg_replace('/\[current-user:[^]]+\]/', '', $text);
     }
 
@@ -155,7 +155,7 @@ class WebformTokenManager implements WebformTokenManagerInterface {
     $text = $this->processSuffixes($text);
 
     // Clear current user tokens for undefined values.
-    if (str_contains($text, '[current-user:')) {
+    if (strpos($text, '[current-user:') !== FALSE) {
       $text = preg_replace('/\[current-user:[^\]]+\]/', '', $text);
     }
 
@@ -292,10 +292,7 @@ class WebformTokenManager implements WebformTokenManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function elementValidate(
-    array &$form,
-    array $token_types = ['webform', 'webform_submission', 'webform_handler'],
-  ) {
+  public function elementValidate(array &$form, array $token_types = ['webform', 'webform_submission', 'webform_handler']) {
     if (!function_exists('token_element_validate')) {
       return;
     }

@@ -4,7 +4,7 @@ namespace Drupal\webform\Element;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 use Drupal\webform\Utility\WebformElementHelper;
 
 /**
@@ -12,7 +12,7 @@ use Drupal\webform\Utility\WebformElementHelper;
  *
  * @FormElement("webform_checkbox_value")
  */
-class WebformCheckboxValue extends FormElementBase {
+class WebformCheckboxValue extends FormElement {
 
   /**
    * {@inheritdoc}
@@ -82,7 +82,7 @@ class WebformCheckboxValue extends FormElementBase {
 
     // Pass '#value__*' properties to the value element.
     foreach ($element as $key => $value) {
-      if (str_starts_with($key, '#value__')) {
+      if (strpos($key, '#value__') === 0) {
         $value_key = str_replace('#value__', '#', $key);
         $element['value'][$value_key] = $value;
       }

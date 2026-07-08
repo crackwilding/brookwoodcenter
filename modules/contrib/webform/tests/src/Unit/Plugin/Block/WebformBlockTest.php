@@ -27,7 +27,7 @@ class WebformBlockTest extends UnitTestCase {
   /**
    * Tests the dependencies of a webform block.
    */
-  public function testCalculateDependencies(): void {
+  public function testCalculateDependencies() {
     // Create mock webform and webform block.
     $webform = $this->createMock(WebformInterface::class);
     $webform->method('id')
@@ -48,7 +48,7 @@ class WebformBlockTest extends UnitTestCase {
   /**
    * Tests the access of a webform block.
    */
-  public function testBlockAccess(): void {
+  public function testBlockAccess() {
     $account = $this->createMock(AccountInterface::class);
 
     $cache_contexts = ['dummy_cache_context'];

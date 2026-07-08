@@ -24,6 +24,8 @@ interface WebformOptionsCustomInterface extends ConfigEntityInterface {
    *
    * @param array $options
    *   An renderable array of options.
+   *
+   * @return $this
    */
   public function setOptions(array $options);
 

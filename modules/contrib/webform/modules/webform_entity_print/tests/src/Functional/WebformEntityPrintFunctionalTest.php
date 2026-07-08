@@ -24,7 +24,7 @@ class WebformEntityPrintFunctionalTest extends WebformEntityPrintFunctionalTestB
   /**
    * Test entity print.
    */
-  public function testEntityPrint(): void {
+  public function testEntityPrint() {
     global $base_path, $base_url;
 
     $assert_session = $this->assertSession();
@@ -159,12 +159,7 @@ body {
 
     // Check custom PDF link to html mode enabled.
     $this->drupalGet("/admin/structure/webform/manage/test_entity_print_custom/submission/$sid");
-    if (version_compare(\Drupal::VERSION, '11', '<')) {
-      $assert_session->responseContains('<div class="webform-entity-print-links"><a href="' . $base_path . 'print/pdf/webform_submission/' . $sid . '?view_mode=html" style="color: red" class="custom-class webform-entity-print-link webform-entity-print-link-pdf">{custom link text}</a></div>');
-    }
-    else {
-      $assert_session->responseContains('<div class="webform-entity-print-links"><a href="' . $base_path . 'print/pdf/webform_submission/' . $sid . '?view_mode=html" class="custom-class webform-entity-print-link webform-entity-print-link-pdf" style="color: red">{custom link text}</a></div>');
-    }
+    $assert_session->responseContains('<div class="webform-entity-print-links"><a href="' . $base_path . 'print/pdf/webform_submission/' . $sid . '?view_mode=html" style="color: red" class="custom-class webform-entity-print-link webform-entity-print-link-pdf">{custom link text}</a></div>');
 
     // Check custom PDF document HTML view mode.
     $this->drupalGet("/print/pdf/webform_submission/$sid/debug", ['query' => ['view_mode' => 'html']]);
@@ -197,7 +192,7 @@ body {
    *   Array of archive contents.
    */
   protected function getArchiveContents($filepath) {
-    if (str_contains($filepath, '.zip')) {
+    if (strpos($filepath, '.zip') !== FALSE) {
       $archive = new \ZipArchive();
       $archive->open($filepath);
       $files = [];

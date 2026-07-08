@@ -24,7 +24,7 @@ class WebformVariantApplyTest extends WebformBrowserTestBase {
   /**
    * Test variant apply.
    */
-  public function testVariantApply(): void {
+  public function testVariantApply() {
     $assert_session = $this->assertSession();
 
     $webform = $this->loadWebform('test_variant_randomize');

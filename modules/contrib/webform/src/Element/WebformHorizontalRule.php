@@ -2,14 +2,14 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Core\Render\Element\RenderElementBase;
+use Drupal\Core\Render\Element\RenderElement;
 
 /**
  * Provides a render element for horizontal rule.
  *
  * @FormElement("webform_horizontal_rule")
  */
-class WebformHorizontalRule extends RenderElementBase {
+class WebformHorizontalRule extends RenderElement {
 
   /**
    * {@inheritdoc}

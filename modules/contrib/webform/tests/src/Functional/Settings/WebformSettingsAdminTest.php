@@ -37,7 +37,7 @@ class WebformSettingsAdminTest extends WebformBrowserTestBase {
   /**
    * Tests webform admin settings.
    */
-  public function testAdminSettings(): void {
+  public function testAdminSettings() {
     global $base_path;
 
     $assert_session = $this->assertSession();

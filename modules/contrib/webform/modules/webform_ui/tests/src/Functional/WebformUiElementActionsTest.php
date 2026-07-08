@@ -21,7 +21,7 @@ class WebformUiElementActionsTest extends WebformBrowserTestBase {
   /**
    * Tests actions element.
    */
-  public function testActionsElements(): void {
+  public function testActionsElements() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

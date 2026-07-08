@@ -15,7 +15,7 @@ class WebformSettingsPreviousTest extends WebformBrowserTestBase {
   /**
    * Test webform submission form previous submission(s).
    */
-  public function testPrevious(): void {
+  public function testPrevious() {
     global $base_path;
 
     $assert_session = $this->assertSession();

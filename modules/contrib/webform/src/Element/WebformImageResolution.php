@@ -4,14 +4,14 @@ namespace Drupal\webform\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\CompositeFormElementTrait;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 
 /**
  * Provides a webform image resolution element .
  *
  * @FormElement("webform_image_resolution")
  */
-class WebformImageResolution extends FormElementBase {
+class WebformImageResolution extends FormElement {
 
   use CompositeFormElementTrait;
 

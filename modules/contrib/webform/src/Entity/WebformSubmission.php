@@ -3,7 +3,6 @@
 namespace Drupal\webform\Entity;
 
 use Drupal\Component\Render\PlainTextOutput;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -11,6 +10,7 @@ use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -542,13 +542,6 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
   /**
    * {@inheritdoc}
    */
-  public function setWebform(WebformInterface $webform) {
-    static::$webform = $webform;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getSourceEntity($translate = FALSE) {
     $entity_type = $this->entity_type->value ?? NULL;
     $entity_id = $this->entity_id->value ?? NULL;
@@ -711,7 +704,7 @@ class WebformSubmission extends ContentEntityBase implements WebformSubmissionIn
    */
   public function isOwner(AccountInterface $account) {
     if ($account->isAnonymous()) {
-      return $this->id() && !empty($_SESSION['webform_submissions']) && isset($_SESSION['webform_submissions'][$this->id()]);
+      return !empty($_SESSION['webform_submissions']) && isset($_SESSION['webform_submissions'][$this->id()]);
     }
     else {
       return $account->id() === $this->getOwnerId();

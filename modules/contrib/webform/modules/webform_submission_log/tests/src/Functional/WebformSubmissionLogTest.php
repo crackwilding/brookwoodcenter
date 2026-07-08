@@ -33,7 +33,7 @@ class WebformSubmissionLogTest extends WebformBrowserTestBase {
   /**
    * Test webform submission log.
    */
-  public function testSubmissionLog(): void {
+  public function testSubmissionLog() {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -158,7 +158,8 @@ class WebformSubmissionLogTest extends WebformBrowserTestBase {
     $this->drupalGet('/admin/structure/webform/manage/test_submission_log/results/log');
     $assert_session->responseContains('No log messages available.');
 
-    $this->postSubmission($webform);
+    $sid_3 = $this->postSubmission($webform);
+    WebformSubmission::load($sid_3);
 
     // Check all results log table has record.
     $this->drupalGet('/admin/structure/webform/submissions/log');
@@ -173,16 +174,6 @@ class WebformSubmissionLogTest extends WebformBrowserTestBase {
     $assert_session->responseNotContains('<a href="' . $base_path . 'admin/structure/webform/manage/test_submission_log/results/log">Test: Submission: Logging</a>');
     $assert_session->responseContains('<a href="' . $base_path . 'admin/structure/webform/manage/test_submission_log/submission/3/log">3</a></td>');
     $assert_session->responseContains('Test: Submission: Logging: Submission #3 created.');
-
-    // Check that the message is displayed as plain text to prevent XSS.
-    $context = [
-      'webform_submission' => WebformSubmission::create(['webform_id' => 'test_submission_log']),
-    ];
-    \Drupal::logger('webform_submission')->error('<img src=x onerror=alert()>', $context);
-    $this->drupalGet('/admin/structure/webform/submissions/log');
-    $assert_session->responseContains('&lt;img src=x onerror=alert()&gt;');
-    $this->drupalGet('/admin/structure/webform/manage/test_submission_log/results/log');
-    $assert_session->responseContains('&lt;img src=x onerror=alert()&gt;');
   }
 
 }

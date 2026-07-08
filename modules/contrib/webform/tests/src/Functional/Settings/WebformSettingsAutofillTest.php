@@ -22,7 +22,7 @@ class WebformSettingsAutofillTest extends WebformBrowserTestBase {
   /**
    * Test webform submission form autofill.
    */
-  public function testAutofill(): void {
+  public function testAutofill() {
     $assert_session = $this->assertSession();
 
     $account = $this->drupalCreateUser();

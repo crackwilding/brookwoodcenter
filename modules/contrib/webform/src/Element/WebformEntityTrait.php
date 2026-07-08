@@ -15,7 +15,6 @@ trait WebformEntityTrait {
    * {@inheritdoc}
    */
   public function getInfo() {
-    // @phpstan-ignore-next-line
     $info = parent::getInfo();
     $info['#target_type'] = NULL;
     $info['#selection_handler'] = 'default';

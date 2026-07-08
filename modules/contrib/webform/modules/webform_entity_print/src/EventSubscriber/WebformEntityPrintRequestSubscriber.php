@@ -34,7 +34,7 @@ class WebformEntityPrintRequestSubscriber implements EventSubscriberInterface {
    * Set custom webform entity print submission view mode.
    */
   public function requestSetViewMode(RequestEvent $event) {
-    if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
+    if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
       return;
     }
 
@@ -55,7 +55,7 @@ class WebformEntityPrintRequestSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents(): array {
+  public static function getSubscribedEvents() {
     return [
       KernelEvents::REQUEST => 'requestSetViewMode',
     ];

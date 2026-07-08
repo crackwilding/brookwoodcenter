@@ -29,7 +29,7 @@ class WebformSettingsArchivedTest extends WebformBrowserTestBase {
   /**
    * Test webform submission form archived.
    */
-  public function testArchived(): void {
+  public function testArchived() {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -54,13 +54,13 @@ class WebformSettingsArchivedTest extends WebformBrowserTestBase {
 
     // Check that archived webform is remove webform select menu.
     $this->drupalGet('/node/add/webform');
-    $this->assertEquals('contact', $assert_session->optionExists('webform[0][target_id]', 'Contact')->getValue());
+    $assert_session->responseContains('<option value="contact">Contact</option>');
     $assert_session->responseNotContains('Test: Webform: Archive');
 
     // Check that selected archived webform is preserved in webform select menu.
     $this->drupalGet('/node/add/webform', ['query' => ['webform_id' => 'test_form_archived']]);
-    $this->assertEquals('contact', $assert_session->optionExists('webform[0][target_id]', 'Contact')->getValue());
-    $assert_session->responseMatches('#<optgroup label="Archived">\s*<option value="test_form_archived"\s+selected="selected">Test: Webform: Archive</option>\s*</optgroup>#');
+    $assert_session->responseContains('<option value="contact">Contact</option>');
+    $assert_session->responseContains('<optgroup label="Archived"><option value="test_form_archived" selected="selected">Test: Webform: Archive</option></optgroup>');
 
     // Change the archived webform to be a template.
     $webform->set('template', TRUE);

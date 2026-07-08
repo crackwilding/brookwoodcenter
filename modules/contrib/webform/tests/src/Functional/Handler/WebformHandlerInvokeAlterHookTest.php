@@ -21,7 +21,7 @@ class WebformHandlerInvokeAlterHookTest extends WebformBrowserTestBase {
   /**
    * Tests webform handler invoke alter hook.
    */
-  public function testWebformHandlerInvokeAlterHook(): void {
+  public function testWebformHandlerInvokeAlterHook() {
     $assert_session = $this->assertSession();
 
     // Check invoke alter hooks.

@@ -30,7 +30,7 @@ class WebformSettingsAjaxJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Tests Ajax.
    */
-  public function testAjax(): void {
+  public function testAjax() {
 
     $assert_session = $this->assertSession();
 

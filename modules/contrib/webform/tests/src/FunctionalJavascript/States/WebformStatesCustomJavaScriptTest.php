@@ -23,7 +23,7 @@ class WebformStatesCustomJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Tests custom states.
    */
-  public function testCustomStates(): void {
+  public function testCustomStates() {
     $session = $this->getSession();
     $page = $session->getPage();
 

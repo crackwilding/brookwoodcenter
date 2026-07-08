@@ -21,7 +21,7 @@ class WebformThirdPartySettingsTest extends WebformBrowserTestBase {
   /**
    * Tests webform third party settings.
    */
-  public function testThirdPartySettings(): void {
+  public function testThirdPartySettings() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('contact');

@@ -39,7 +39,7 @@ class WebformTokenSubmissionValueTest extends WebformBrowserTestBase {
   /**
    * Test webform token submission value.
    */
-  public function testWebformTokenSubmissionValue(): void {
+  public function testWebformTokenSubmissionValue() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_token_submission_value');

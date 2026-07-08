@@ -5,7 +5,6 @@ namespace Drupal\webform\Access;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\webform\WebformInterface;
 
 /**
  * Defines the custom access control handler for the webform source entities.
@@ -28,7 +27,7 @@ class WebformSourceEntityAccess {
     $entity_reference_manager = \Drupal::service('webform.entity_reference_manager');
 
     $access = $entity->access('update', $account, TRUE);
-    $access->andIf(AccessResult::allowedIf($entity_reference_manager->getWebform($entity) instanceof WebformInterface));
+    $access->andIf(AccessResult::allowedIf($entity_reference_manager->getWebform($entity)));
     return $access;
   }
 

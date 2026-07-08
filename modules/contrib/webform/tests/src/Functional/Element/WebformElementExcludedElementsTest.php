@@ -19,7 +19,7 @@ class WebformElementExcludedElementsTest extends WebformElementBrowserTestBase {
   /**
    * Test excluded elements element.
    */
-  public function testExcludedElements(): void {
+  public function testExcludedElements() {
     $assert_session = $this->assertSession();
 
     $this->drupalGet('/webform/test_element_excluded_elements');

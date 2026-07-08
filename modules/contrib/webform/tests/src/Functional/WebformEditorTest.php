@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\webform\Functional;
 
-use Drupal\Tests\TestFileCreationTrait;
 use Drupal\file\Entity\File;
+use Drupal\Tests\TestFileCreationTrait;
 
 /**
  * Tests for webform editor.
@@ -43,7 +43,7 @@ class WebformEditorTest extends WebformBrowserTestBase {
   /**
    * Tests webform entity settings files.
    */
-  public function testWebformSettingsFiles(): void {
+  public function testWebformSettingsFiles() {
     $this->drupalLogin($this->rootUser);
 
     // Create three test images.
@@ -183,7 +183,7 @@ class WebformEditorTest extends WebformBrowserTestBase {
   /**
    * Tests webform configuration files.
    */
-  public function testWebformConfigurationFiles(): void {
+  public function testWebformConfigurationFiles() {
     $this->drupalLogin($this->rootUser);
 
     // Create three test images.

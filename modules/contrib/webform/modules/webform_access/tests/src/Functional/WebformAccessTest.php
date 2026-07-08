@@ -21,7 +21,7 @@ class WebformAccessTest extends WebformAccessBrowserTestBase {
   /**
    * Tests webform access.
    */
-  public function testWebformAccess(): void {
+  public function testWebformAccess() {
     $assert_session = $this->assertSession();
 
     $nid = $this->nodes['contact_01']->id();
@@ -91,8 +91,11 @@ class WebformAccessTest extends WebformAccessBrowserTestBase {
       'default_value_input[webform][0][target_id]' => 'contact',
       'default_value_input[webform][0][settings][default_data]' => 'test: test',
       'default_value_input[webform][0][settings][webform_access_group][]' => 'manager',
-      'set_default_value' => TRUE,
     ];
+    // @todo Remove once Drupal 10.1.x is only supported.
+    if (floatval(\Drupal::VERSION) >= 10.1) {
+      $edit['set_default_value'] = TRUE;
+    }
     $this->submitForm($edit, 'Save settings');
     $this->drupalGet('/node/add/webform');
     $this->assertTrue($assert_session->optionExists('webform[0][settings][webform_access_group][]', 'manager')->hasAttribute('selected'));
@@ -180,7 +183,7 @@ class WebformAccessTest extends WebformAccessBrowserTestBase {
   /**
    * Tests webform administrator access.
    */
-  public function testWebformAdministratorAccess(): void {
+  public function testWebformAdministratorAccess() {
     $assert_session = $this->assertSession();
 
     // Check root user access to group edit form.

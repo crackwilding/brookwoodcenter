@@ -57,7 +57,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
   /**
    * Tests webform submission conditions (#states) validator required.
    */
-  public function testFormStatesValidatorRequired(): void {
+  public function testFormStatesValidatorRequired() {
     $assert_session = $this->assertSession();
 
     /* ********************************************************************** */
@@ -410,7 +410,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $assert_session->responseContains('dependent_not_between field is required.');
 
     /* ********************************************************************** */
-    // Multiple element.
+    // multiple element.
     /* ********************************************************************** */
 
     $webform = Webform::load('test_states_server_multiple');
@@ -424,7 +424,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $assert_session->responseContains('textfield_multiple field is required.');
 
     /* ********************************************************************** */
-    // Composite element.
+    // composite element.
     /* ********************************************************************** */
 
     $webform = Webform::load('test_states_server_comp');
@@ -469,7 +469,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $assert_session->responseContains('textfield_dependent_required field is required.');
 
     /* ********************************************************************** */
-    // Likert element.
+    // likert element.
     /* ********************************************************************** */
 
     $webform = Webform::load('test_states_server_likert');
@@ -489,7 +489,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $assert_session->responseNotContains('q2 field is required.');
 
     /* ********************************************************************** */
-    // Nested containers.
+    // nested containers.
     /* ********************************************************************** */
 
     $webform = Webform::load('test_states_server_containers');
@@ -535,7 +535,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $assert_session->responseContains('visible_slide_custom_textfield field is required.');
 
     /* ********************************************************************** */
-    // Nested conditions.
+    // nested conditions.
     /* ********************************************************************** */
 
     $webform = Webform::load('test_states_server_nested');
@@ -568,12 +568,7 @@ class WebformStatesServerTest extends WebformBrowserTestBase {
     $this->submitForm($edit, 'Next >');
     $assert_session->responseNotContains('<input data-drupal-selector="edit-page-2-target" type="text" id="edit-page-2-target" name="page_2_target" value="" size="60" maxlength="255" class="form-text" />');
     $assert_session->responseContains('<label for="edit-page-2-target" class="js-form-required form-required">page_2_target: [a and b] or c = required</label>');
-    if (version_compare(\Drupal::VERSION, '11', '<')) {
-      $assert_session->responseContains('<input data-drupal-selector="edit-page-2-target" type="text" id="edit-page-2-target" name="page_2_target" value="" size="60" maxlength="255" class="form-text required" required="required" aria-required="true" />');
-    }
-    else {
-      $assert_session->responseContains('<input data-drupal-selector="edit-page-2-target" type="text" id="edit-page-2-target" name="page_2_target" value="" size="60" maxlength="255" class="form-text required" required="required" />');
-    }
+    $assert_session->responseContains('<input data-drupal-selector="edit-page-2-target" type="text" id="edit-page-2-target" name="page_2_target" value="" size="60" maxlength="255" class="form-text required" required="required" aria-required="true" />');
 
     /* ********************************************************************** */
     // test_states_crosspage.

@@ -94,9 +94,7 @@ abstract class WebformVariantFormBase extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, ?WebformInterface $webform = NULL, $webform_variant = NULL) {
     $this->webform = $webform;
     try {
-      if (method_exists($this, 'prepareWebformVariant')) {
-        $this->webformVariant = $this->prepareWebformVariant($webform_variant);
-      }
+      $this->webformVariant = $this->prepareWebformVariant($webform_variant);
     }
     catch (PluginNotFoundException $e) {
       throw new NotFoundHttpException("Invalid variant id: '$webform_variant'.");

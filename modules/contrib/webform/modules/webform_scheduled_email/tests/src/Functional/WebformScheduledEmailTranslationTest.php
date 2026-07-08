@@ -22,7 +22,7 @@ class WebformScheduledEmailTranslationTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform schedule email handler translation.
    */
-  public function testWebformScheduledEmailTranslation(): void {
+  public function testWebformScheduledEmailTranslation() {
     $webform_schedule = Webform::load('test_handler_scheduled_translate');
 
     /** @var \Drupal\webform_scheduled_email\WebformScheduledEmailManagerInterface $scheduled_manager */

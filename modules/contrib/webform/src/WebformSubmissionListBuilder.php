@@ -3,7 +3,6 @@
 namespace Drupal\webform;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
@@ -429,23 +428,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function render() {
-    // Wrap the results form and table in a <div> with classes.
-    $classes = [];
-    $classes[] = 'webform-results';
-    if ($this->webform) {
-      $classes[] = 'webform-results'
-        . '-' . Html::getClass($this->webform->id());
-    }
-    if ($this->webform && $this->sourceEntity) {
-      $classes[] = 'webform-results'
-        . '-' . Html::getClass($this->webform->id())
-        . '-' . Html::getClass($this->sourceEntity->getEntityTypeId())
-        . '-' . Html::getClass($this->sourceEntity->id());
-    }
-    $build = [
-      '#type' => 'container',
-      '#attributes' => ['class' => $classes],
-    ];
+    $build = [];
 
     // Set user specific page title.
     if ($this->webform && $this->account) {
@@ -682,7 +665,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
         $source_entity_options = $this->storage->getSourceEntitiesAsOptions($this->webform);
         $source_entity_default_value = $this->sourceEntityTypeId;
       }
-      elseif ($this->sourceEntityTypeId && str_contains($this->sourceEntityTypeId, ':')) {
+      elseif ($this->sourceEntityTypeId && strpos($this->sourceEntityTypeId, ':') !== FALSE) {
         $source_entity_options = $this->webform;
         try {
           [$source_entity_type, $source_entity_id] = explode(':', $this->sourceEntityTypeId);
@@ -734,15 +717,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
       '#type' => 'link',
       '#title' => $title,
       '#url' => $this->ensureDestination(Url::fromRoute($route_name, $route_parameters)),
-      '#attributes' => WebformDialogHelper::getModalDialogAttributes(
-        WebformDialogHelper::DIALOG_NORMAL,
-        [
-          'button',
-          'button-action',
-          'button--small',
-          'button-webform-table-setting',
-        ],
-      ),
+      '#attributes' => WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_NORMAL, ['button', 'button-action', 'button--small', 'button-webform-table-setting']),
     ];
   }
 
@@ -830,13 +805,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
       case 'sticky':
       case 'locked':
         return [
-          'data' => new FormattableMarkup(
-            '<span class="webform-icon webform-icon-@name webform-icon-@name--link"></span><span class="visually-hidden">@title</span> ',
-            [
-              '@name' => $name,
-              '@title' => $title,
-            ]
-          ),
+          'data' => new FormattableMarkup('<span class="webform-icon webform-icon-@name webform-icon-@name--link"></span><span class="visually-hidden">@title</span> ', ['@name' => $name, '@title' => $title]),
           'class' => ['webform-results-table__icon'],
           'field' => $name,
           'specifier' => $name,
@@ -932,13 +901,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
         return [
           'data' => [
             '#type' => 'link',
-            '#title' => new FormattableMarkup(
-              '<span class="webform-icon webform-icon-notes webform-icon-notes--@state" title="@label"></span><span class="visually-hidden">@label</span>',
-              [
-                '@state' => $state,
-                '@label' => $label,
-              ]
-            ),
+            '#title' => new FormattableMarkup('<span class="webform-icon webform-icon-notes webform-icon-notes--@state" title="@label"></span><span class="visually-hidden">@label</span>', ['@state' => $state, '@label' => $label]),
             '#url' => $notes_url,
             '#attributes' => WebformDialogHelper::getModalDialogAttributes(WebformDialogHelper::DIALOG_NARROW),
           ],
@@ -1037,7 +1000,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
         return ($is_raw) ? $entity->getWebform()->id() : $entity->getWebform()->toLink();
 
       default:
-        if (str_starts_with($name, 'element__')) {
+        if (strpos($name, 'element__') === 0) {
           $element = $column['element'];
           $options = $column;
 
@@ -1190,7 +1153,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
    *   or 'webform_submission.canonical.
    */
   protected function getSubmissionRouteName() {
-    return str_contains($this->routeMatch->getRouteName(), 'webform.user.submissions') ? 'webform.user.submission' : 'webform_submission.' . $this->linkType;
+    return (strpos($this->routeMatch->getRouteName(), 'webform.user.submissions') !== FALSE) ? 'webform.user.submission' : 'webform_submission.' . $this->linkType;
   }
 
   /**
@@ -1344,7 +1307,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
     // If query is order(ed) by 'element__*' we need to build a custom table
     // sort using hook_query_TAG_alter().
     // @see webform_query_webform_submission_list_builder_alter()
-    if (!empty($order['sql']) && str_starts_with($order['sql'], 'element__')) {
+    if (!empty($order['sql']) && strpos($order['sql'], 'element__') === 0) {
       $name = $order['sql'];
       $column = $this->columns[$name];
       $query->addTag('webform_submission_list_builder')
@@ -1371,9 +1334,10 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
         if (isset($default['specified'])) {
           $query->tableSort($header);
         }
+        else {
+          $query->sort('sid', 'DESC');
+        }
       }
-      // Sort by 'sid' to ensure a consistent order of records for batch operations.
-      $query->sort('sid', 'DESC');
       return $query->execute();
     }
   }
@@ -1479,7 +1443,7 @@ class WebformSubmissionListBuilder extends EntityListBuilder {
     }
 
     // Filter by source entity.
-    if ($source_entity && str_contains($source_entity, ':')) {
+    if ($source_entity && strpos($source_entity, ':') !== FALSE) {
       [$entity_type, $entity_id] = explode(':', $source_entity);
       $query->condition('entity_type', $entity_type);
       $query->condition('entity_id', $entity_id);

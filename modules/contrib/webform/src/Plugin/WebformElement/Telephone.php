@@ -2,7 +2,6 @@
 
 namespace Drupal\webform\Plugin\WebformElement;
 
-use libphonenumber\PhoneNumberFormat;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Element\WebformMessage as WebformMessageElement;
@@ -129,7 +128,7 @@ class Telephone extends TextBase {
     if ($this->moduleHandler->moduleExists('telephone_validation')) {
       $format = $this->getElementProperty($element, 'telephone_validation_format');
       $format = ($format !== '') ? (int) $format : '';
-      if ($format === PhoneNumberFormat::NATIONAL) {
+      if ($format === \libphonenumber\PhoneNumberFormat::NATIONAL) {
         $country = (array) $this->getElementProperty($element, 'telephone_validation_country');
       }
       else {
@@ -200,8 +199,8 @@ class Telephone extends TextBase {
         '#description' => $this->t('For international telephone numbers we suggest using <a href=":href">E164</a> format.', [':href' => 'https://en.wikipedia.org/wiki/E.164']),
         '#empty_option' => $this->t('- None -'),
         '#options' => [
-          PhoneNumberFormat::E164 => $this->t('E164'),
-          PhoneNumberFormat::NATIONAL => $this->t('National'),
+          \libphonenumber\PhoneNumberFormat::E164 => $this->t('E164'),
+          \libphonenumber\PhoneNumberFormat::NATIONAL => $this->t('National'),
         ],
       ];
       $form['telephone']['telephone_validation_country'] = [
@@ -210,10 +209,10 @@ class Telephone extends TextBase {
         '#options' => $this->telephoneValidator->getCountryList(),
         '#states' => [
           'visible' => [
-            ':input[name="properties[telephone_validation_format]"]' => ['value' => PhoneNumberFormat::NATIONAL],
+            ':input[name="properties[telephone_validation_format]"]' => ['value' => \libphonenumber\PhoneNumberFormat::NATIONAL],
           ],
           'required' => [
-            ':input[name="properties[telephone_validation_format]"]' => ['value' => PhoneNumberFormat::NATIONAL],
+            ':input[name="properties[telephone_validation_format]"]' => ['value' => \libphonenumber\PhoneNumberFormat::NATIONAL],
           ],
         ],
       ];
@@ -226,7 +225,7 @@ class Telephone extends TextBase {
         '#multiple' => TRUE,
         '#states' => [
           'visible' => [
-            ':input[name="properties[telephone_validation_format]"]' => ['value' => PhoneNumberFormat::E164],
+            ':input[name="properties[telephone_validation_format]"]' => ['value' => \libphonenumber\PhoneNumberFormat::E164],
           ],
         ],
       ];

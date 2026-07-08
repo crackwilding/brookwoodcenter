@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   // @see http://api.jqueryui.com/dialog/
   Drupal.webform = Drupal.webform || {};
   Drupal.webform.termsOfServiceModal = Drupal.webform.termsOfServiceModal || {};
@@ -15,7 +18,7 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformTermsOfService = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-terms-of-service', '.js-form-type-webform-terms-of-service', context)).each(function () {
         var $element = $(this);
         var $a = $element.find('label a');
@@ -49,17 +52,14 @@
           });
         }
 
-        // Only add the event handler for none link items.
-        if (type !== 'link') {
-          // Set event handlers.
-          $a.on('click', openDetails)
-            .on('keydown', function (event) {
-              // Space or Return.
-              if (event.which === 32 || event.which === 13) {
-                openDetails(event);
-              }
-            });
-        }
+        // Set event handlers.
+        $a.on('click', openDetails)
+          .on('keydown', function (event) {
+            // Space or Return.
+            if (event.which === 32 || event.which === 13) {
+              openDetails(event);
+            }
+          });
 
         function openDetails(event) {
           if (type === 'modal') {

@@ -7,7 +7,7 @@
  * `drush php-eval '\Drupal::moduleHandler()->loadInclude('webform_test_translation', 'install'); webform_test_translation_install()'; drush cr;`
  */
 
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Serialization\Yaml;
 
 /**
  * Implements hook_install().

@@ -21,7 +21,7 @@ class WebformWizardLinksTest extends WebformWizardTestBase {
   /**
    * Test webform wizard progress and preview links.
    */
-  public function testWizardLinks(): void {
+  public function testWizardLinks() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

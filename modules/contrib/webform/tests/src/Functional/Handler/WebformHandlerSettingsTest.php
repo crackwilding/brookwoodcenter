@@ -21,7 +21,7 @@ class WebformHandlerSettingsTest extends WebformBrowserTestBase {
   /**
    * Test settings handler.
    */
-  public function testSettingsHandler(): void {
+  public function testSettingsHandler() {
     $assert_session = $this->assertSession();
 
     // NOTE: Using message indentation to make sure the message is matched

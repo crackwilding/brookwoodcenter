@@ -3,7 +3,6 @@
 namespace Drupal\webform\Plugin\WebformHandler;
 
 use Drupal\Component\Render\MarkupInterface;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\RedirectCommand;
@@ -11,6 +10,7 @@ use Drupal\Core\EventSubscriber\MainContentViewSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\webform\Element\WebformMessage;
@@ -24,18 +24,17 @@ use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformMessageManagerInterface;
 use Drupal\webform\WebformSubmissionInterface;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\TransferException;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Webform submission remote HTTP operation handler.
+ * Webform submission remote post handler.
  *
  * @WebformHandler(
  *   id = "remote_post",
- *   label = @Translation("Remote HTTP Operations"),
+ *   label = @Translation("Remote post"),
  *   category = @Translation("External"),
- *   description = @Translation("Execute HTTP operation <small>(GET, POST, PUT, or PATCH request methods)</small> to a URL, (optionally) including the webform submissions."),
+ *   description = @Translation("Posts webform submissions to a URL."),
  *   cardinality = \Drupal\webform\Plugin\WebformHandlerInterface::CARDINALITY_UNLIMITED,
  *   results = \Drupal\webform\Plugin\WebformHandlerInterface::RESULTS_PROCESSED,
  *   submission = \Drupal\webform\Plugin\WebformHandlerInterface::SUBMISSION_OPTIONAL,
@@ -103,7 +102,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
   /**
    * List of unsupported webform submission properties.
    *
-   * The below properties will not being included in a remote HTTP operation.
+   * The below properties will not being included in a remote post.
    *
    * @var array
    */
@@ -167,7 +166,6 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       'method' => 'POST',
       'type' => 'x-www-form-urlencoded',
       'excluded_data' => $excluded_data,
-      'check_access' => FALSE,
       'custom_data' => '',
       'custom_options' => '',
       'file_data' => TRUE,
@@ -325,14 +323,14 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Cast posted element value and custom data'),
       '#description' => $this->t('If checked, posted element values will be cast to integers, floats, and booleans as needed. Custom data can be cast by placing the desired type in parentheses before the value or token. (i.e. "(int) [webform_submission:value:total]" or "(int) 100")') .
-      '<br/>' .
-      '<br/>' .
-      $this->t('For custom data, the casts allowed are:') .
-      '<ul>' .
-      '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(int)', '@type' => 'integer']) . '</li>' .
-      '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(float)', '@type' => 'float']) . '</li>' .
-      '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(bool)', '@type' => 'boolean']) . '</li>' .
-      '</ul>',
+        '<br/>' .
+        '<br/>' .
+        $this->t('For custom data, the casts allowed are:') .
+        '<ul>' .
+        '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(int), (integer)', '@type' => 'integer']) . '</li>' .
+        '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(float), (double), (real)', '@type' => 'float']) . '</li>' .
+        '<li>' . $this->t('@cast - cast to @type', ['@cast' => '(bool), (boolean)', '@type' => 'boolean']) . '</li>' .
+        '</ul>',
       '#return_value' => TRUE,
       '#default_value' => $this->configuration['cast'],
     ];
@@ -340,7 +338,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       '#type' => 'webform_codemirror',
       '#mode' => 'yaml',
       '#title' => $this->t('Custom data'),
-      '#description' => $this->t('Enter custom data that will be included in all remote CRUD requests.'),
+      '#description' => $this->t('Enter custom data that will be included in all remote post requests.'),
       '#default_value' => $this->configuration['custom_data'],
     ];
     $form['additional']['custom_options'] = [
@@ -459,13 +457,6 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       '#required' => TRUE,
       '#default_value' => $this->configuration['excluded_data'],
     ];
-    $form['submission_data']['check_access'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Check if an element is displayed'),
-      '#description' => $this->t("If checked, elements with 'Display element' unchecked (i.e., <code>'#access': false</code> will not be included in the request data."),
-      '#default_value' => $this->configuration['check_access'],
-      '#return_value' => TRUE,
-    ];
 
     $this->elementTokenValidate($form);
 
@@ -499,9 +490,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
   }
 
   /**
-   * Execute a remote HTTP operation.
-   *
-   * Executes a remote HTTP operation with the selected request method.
+   * Execute a remote post.
    *
    * @param string $state
    *   The state of the webform submission.
@@ -541,13 +530,8 @@ class RemotePostWebformHandler extends WebformHandlerBase {
         $response = $this->httpClient->$method($request_url, $request_options);
       }
     }
-    catch (TransferException $request_exception) {
-      if ($request_exception instanceof RequestException) {
-        $response = $request_exception->getResponse();
-      }
-      else {
-        $response = NULL;
-      }
+    catch (RequestException $request_exception) {
+      $response = $request_exception->getResponse();
 
       // Encode HTML entities to prevent broken markup from breaking the page.
       $message = $request_exception->getMessage();
@@ -560,7 +544,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
     // Display submission exception if response code is not 2xx.
     if ($this->responseHasError($response)) {
       $t_args = ['@status_code' => $this->getStatusCode($response)];
-      $message = $this->t('Remote CRUD request return @status_code status code.', $t_args);
+      $message = $this->t('Remote post request return @status_code status code.', $t_args);
       $this->handleError($state, $message, $request_url, $request_method, $request_type, $request_options, $response);
       return;
     }
@@ -569,12 +553,12 @@ class RemotePostWebformHandler extends WebformHandlerBase {
     }
 
     // If debugging is enabled, display the request and response.
-    $this->debug($this->t('Remote HTTP operation successful!'), $state, $request_url, $request_method, $request_type, $request_options, $response, 'warning');
+    $this->debug($this->t('Remote post successful!'), $state, $request_url, $request_method, $request_type, $request_options, $response, 'warning');
 
     // Replace [webform:handler] tokens in submission data.
     // Data structured for [webform:handler:remote_post:completed:key] tokens.
     $submission_data = $webform_submission->getData();
-    $submission_has_token = str_contains(print_r($submission_data, TRUE), '[webform:handler:' . $this->getHandlerId() . ':');
+    $submission_has_token = (strpos(print_r($submission_data, TRUE), '[webform:handler:' . $this->getHandlerId() . ':') !== FALSE) ? TRUE : FALSE;
     if ($submission_has_token) {
       $response_data = $this->getResponseData($response);
       $token_data = ['webform_handler' => [$this->getHandlerId() => [$state => $response_data]]];
@@ -623,22 +607,14 @@ class RemotePostWebformHandler extends WebformHandlerBase {
     // Append uploaded file name, uri, and base64 data to data.
     $webform = $this->getWebform();
     foreach ($data as $element_key => $element_value) {
-      $element = $webform->getElement($element_key);
-      if (!$element) {
-        continue;
-      }
-
-      // Remove elements with #access set to FALSE.
-      if ($this->configuration['check_access']
-        && isset($element['#access'])
-        && $element['#access'] === FALSE) {
-        unset($data[$element_key]);
-        continue;
-      }
-
       // Ignore empty and not equal to zero values.
       // @see https://stackoverflow.com/questions/732979/php-whats-an-alternative-to-empty-where-string-0-is-not-treated-as-empty
       if (empty($element_value) && $element_value !== 0 && $element_value !== '0') {
+        continue;
+      }
+
+      $element = $webform->getElement($element_key);
+      if (!$element) {
         continue;
       }
 
@@ -733,7 +709,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
    */
   protected function castRequestValue(array $element, WebformElementInterface $element_plugin, $value) {
     if ($element_plugin instanceof BooleanBase) {
-      return (bool) $value;
+      return (boolean) $value;
     }
     elseif ($element_plugin instanceof NumericBase) {
       return (float) $value;
@@ -914,9 +890,9 @@ class RemotePostWebformHandler extends WebformHandlerBase {
    * @param string $request_url
    *   The remote URL the request is being posted to.
    * @param string $request_method
-   *   The method of remote HTTP operation.
+   *   The method of remote post.
    * @param string $request_type
-   *   The type of remote HTTP operation.
+   *   The type of remote post.
    * @param string $request_options
    *   The requests options including the submission data.
    * @param \Psr\Http\Message\ResponseInterface|null $response
@@ -931,7 +907,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
 
     $build = [
       '#type' => 'details',
-      '#title' => $this->t('Debug: Remote HTTP operation: @title [@state]', ['@title' => $this->label(), '@state' => $state]),
+      '#title' => $this->t('Debug: Remote post: @title [@state]', ['@title' => $this->label(), '@state' => $state]),
     ];
 
     // State.
@@ -1047,7 +1023,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       '#markup' => $message,
     ];
 
-    $this->messenger()->addMessage($this->renderer->renderInIsolation($build), $type);
+    $this->messenger()->addMessage($this->renderer->renderPlain($build), $type);
   }
 
   /**
@@ -1063,9 +1039,9 @@ class RemotePostWebformHandler extends WebformHandlerBase {
    * @param string $request_url
    *   The remote URL the request is being posted to.
    * @param string $request_method
-   *   The method of remote HTTP operation.
+   *   The method of remote post.
    * @param string $request_type
-   *   The type of remote HTTP operation.
+   *   The type of remote post.
    * @param string $request_options
    *   The requests options including the submission data.
    * @param \Psr\Http\Message\ResponseInterface|null $response
@@ -1103,7 +1079,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
     $error_url = $this->replaceTokens($this->configuration['error_url'], $this->getWebformSubmission());
     if ($error_url && PHP_SAPI !== 'cli') {
       // Convert error path to URL.
-      if (str_starts_with($error_url, '/')) {
+      if (strpos($error_url, '/') === 0) {
         $error_url = $base_url . preg_replace('#^' . $base_path . '#', '/', $error_url);
       }
 
@@ -1126,7 +1102,10 @@ class RemotePostWebformHandler extends WebformHandlerBase {
       // Make sure to trigger kernel events.
       $this->kernel->terminate($request, $response);
       $response->send();
-      exit;
+      // Only exit, an Ajax request to prevent headers from being overwritten.
+      if ($is_ajax_request) {
+        exit;
+      }
     }
   }
 
@@ -1185,7 +1164,7 @@ class RemotePostWebformHandler extends WebformHandlerBase {
     $build_message = [
       '#markup' => $this->replaceTokens($custom_response_message, $this->getWebform(), $token_data),
     ];
-    $message = \Drupal::service('renderer')->renderInIsolation($build_message);
+    $message = \Drupal::service('renderer')->renderPlain($build_message);
     $type = ($this->responseHasError($response)) ? MessengerInterface::TYPE_ERROR : MessengerInterface::TYPE_STATUS;
     $this->messenger()->addMessage($message, $type);
     return TRUE;

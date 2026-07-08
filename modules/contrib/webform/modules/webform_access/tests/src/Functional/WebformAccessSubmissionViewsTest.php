@@ -23,7 +23,7 @@ class WebformAccessSubmissionViewsTest extends WebformAccessBrowserTestBase {
   /**
    * Tests webform access submission views.
    */
-  public function testWebformAccessSubmissionViewsTest(): void {
+  public function testWebformAccessSubmissionViewsTest() {
     // Create a test submission for each node and user account.
     $webform = Webform::load('contact');
     /** @var \Drupal\webform\WebformSubmissionGenerateInterface $submission_generate */

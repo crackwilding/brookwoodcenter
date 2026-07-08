@@ -2,9 +2,9 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\Utility\WebformYaml;
 
@@ -13,7 +13,7 @@ use Drupal\webform\Utility\WebformYaml;
  *
  * @FormElement("webform_element_attributes")
  */
-class WebformElementAttributes extends FormElementBase {
+class WebformElementAttributes extends FormElement {
 
   /**
    * {@inheritdoc}
@@ -131,7 +131,7 @@ class WebformElementAttributes extends FormElementBase {
 
     // Apply custom properties. Typically used for descriptions.
     foreach ($element as $key => $value) {
-      if (str_contains($key, '__')) {
+      if (strpos($key, '__') !== FALSE) {
         [$element_key, $property_key] = explode('__', ltrim($key, '#'));
         $element[$element_key]["#$property_key"] = $value;
       }
@@ -176,9 +176,7 @@ class WebformElementAttributes extends FormElementBase {
       $attributes['style'] = $values['style'];
     }
 
-    // Make sure the attributes are validate via the WebformCodeMirror element.
-    // @see \Drupal\webform\Element\WebformCodeMirror::validateWebformCodeMirror
-    if (!empty($values['attributes']) && !$form_state->getError($element['attributes'])) {
+    if (!empty($values['attributes'])) {
       $attributes += Yaml::decode($values['attributes']);
     }
 

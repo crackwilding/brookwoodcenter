@@ -24,7 +24,7 @@ class WebformElementSignatureJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Tests computed element Ajax.
    */
-  public function testComputedElementAjax(): void {
+  public function testComputedElementAjax() {
     $session = $this->getSession();
     $page = $session->getPage();
     $assert_session = $this->assertSession();

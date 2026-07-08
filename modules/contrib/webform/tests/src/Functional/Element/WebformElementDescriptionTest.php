@@ -19,7 +19,7 @@ class WebformElementDescriptionTest extends WebformElementBrowserTestBase {
   /**
    * Test date element.
    */
-  public function testDateElement(): void {
+  public function testDateElement() {
     $this->drupalGet('/webform/test_element_description');
 
     // Check .description class is included when description display is before.

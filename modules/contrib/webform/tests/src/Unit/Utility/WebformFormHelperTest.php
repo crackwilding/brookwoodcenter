@@ -28,7 +28,7 @@ class WebformFormHelperTest extends UnitTestCase {
    *
    * @dataProvider providerCleanupFormStateValues
    */
-  public function testCleanupFormStateValues(array $values, array $keys, $expected): void {
+  public function testCleanupFormStateValues(array $values, array $keys, $expected) {
     $result = WebformFormHelper::cleanupFormStateValues($values, $keys);
     $this->assertEquals($expected, $result);
   }
@@ -38,7 +38,7 @@ class WebformFormHelperTest extends UnitTestCase {
    *
    * @see testCleanupFormStateValues()
    */
-  public static function providerCleanupFormStateValues() {
+  public function providerCleanupFormStateValues() {
     $tests[] = [['key' => 'value'], [], ['key' => 'value']];
     $tests[] = [['key' => 'value', 'form_token' => 'ignored'], [], ['key' => 'value']];
     $tests[] = [['key' => 'value', 'form_token' => 'ignored'], ['key'], []];
@@ -50,7 +50,7 @@ class WebformFormHelperTest extends UnitTestCase {
    *
    * @see WebformFormHelper::flattenElements()
    */
-  public function testFlattenElements(): void {
+  public function testFlattenElements() {
     $elements = [
       'one' => [
         '#title' => 'one',

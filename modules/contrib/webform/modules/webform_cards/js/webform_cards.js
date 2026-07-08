@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal) {
+
+  'use strict';
+
   Drupal.webform = Drupal.webform || {};
   Drupal.webform.cards = Drupal.webform.cards || {};
   // Autoforward (defaults to 1/4 second delay).
@@ -15,7 +18,7 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformCards = {
-    attach(context) {
+    attach: function (context) {
       // Determine if the form is the context or it is within the context.
       var $forms = $(context).is('form.webform-submission-form')
         ? $(context)
@@ -73,7 +76,7 @@
         }
 
         // Server-side validation errors.
-        // @see \Drupal\Core\Render\Element\RenderElementBase::setAttributes
+        // @see \Drupal\Core\Render\Element\RenderElement::setAttributes
         var $invalidCards = $allCards.filter(':has(.form-item--error-message)');
         if ($invalidCards.length) {
           // Hide progress.

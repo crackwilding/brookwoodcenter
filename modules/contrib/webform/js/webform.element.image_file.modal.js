@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Display webform image file in a modal.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformImageFileModal = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-image-file-modal', '.js-webform-image-file-modal', context)).on('click', function () {
         // http://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
         var img = new Image();

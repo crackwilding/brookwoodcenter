@@ -22,7 +22,7 @@ class WebformAccessEntityJsonApiTest extends WebformBrowserTestBase {
   /**
    * Tests webform entity REST access.
    */
-  public function testRestAccess(): void {
+  public function testRestAccess() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('contact');

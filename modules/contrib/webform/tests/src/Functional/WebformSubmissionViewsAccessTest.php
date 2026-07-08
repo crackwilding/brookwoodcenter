@@ -33,7 +33,7 @@ class WebformSubmissionViewsAccessTest extends WebformBrowserTestBase {
   /**
    * Test webform submission entity access in a view query.
    */
-  public function testEntityAccess(): void {
+  public function testEntityAccess() {
     /** @var \Drupal\webform\WebformInterface $webform */
     $webform = Webform::load('contact');
 
@@ -71,7 +71,7 @@ class WebformSubmissionViewsAccessTest extends WebformBrowserTestBase {
   /**
    * Tests webform submission views enforce access per user's permissions.
    */
-  public function testPermissionAccess(): void {
+  public function testPermissionAccess() {
     /** @var \Drupal\webform\WebformInterface $webform */
     $webform = Webform::load('contact');
 

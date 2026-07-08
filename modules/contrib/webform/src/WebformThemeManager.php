@@ -193,7 +193,7 @@ class WebformThemeManager implements WebformThemeManagerInterface {
     if ($theme_name !== NULL) {
       $this->setCurrentTheme($theme_name);
     }
-    $markup = $this->renderer->renderInIsolation($elements);
+    $markup = $this->renderer->renderPlain($elements);
     if ($theme_name !== NULL) {
       $this->setActiveTheme();
     }

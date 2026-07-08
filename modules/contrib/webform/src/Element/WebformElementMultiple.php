@@ -4,7 +4,7 @@ namespace Drupal\webform\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 
 /**
  * Provides a webform element for element multiple property.
@@ -16,7 +16,7 @@ use Drupal\Core\Render\Element\FormElementBase;
  *
  * @see \Drupal\field_ui\Form\FieldStorageConfigEditForm::form
  */
-class WebformElementMultiple extends FormElementBase {
+class WebformElementMultiple extends FormElement {
 
   /**
    * {@inheritdoc}

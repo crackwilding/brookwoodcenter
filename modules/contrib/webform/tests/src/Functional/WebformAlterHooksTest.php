@@ -21,7 +21,7 @@ class WebformAlterHooksTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform alter hooks.
    */
-  public function testWebformAlterHooks(): void {
+  public function testWebformAlterHooks() {
     $assert_session = $this->assertSession();
 
     // Check webform alter hooks.

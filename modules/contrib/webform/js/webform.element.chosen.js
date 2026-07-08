@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   // @see https://harvesthq.github.io/chosen/options.html
   Drupal.webform = Drupal.webform || {};
   Drupal.webform.chosen = Drupal.webform.chosen || {};
@@ -17,7 +20,7 @@
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformChosen = {
-    attach(context) {
+    attach: function (context) {
       if (!$.fn.chosen) {
         return;
       }
@@ -71,9 +74,13 @@
           if ($select.data('limit')) {
             options.max_selected_options = $select.data('limit');
           }
-          // Allow custom options.
-          if ($select.attr('data-options')) {
-            options = $.extend(true, options, JSON.parse($select.attr('data-options')));
+
+          // Remove required attribute from IE11 which breaks
+          // HTML5 clientside validation.
+          if (window.navigator.userAgent.indexOf('Trident/') !== -1
+            && $select.attr('multiple')
+            && $select.attr('required')) {
+            $select.removeAttr('required');
           }
 
           $select.chosen(options);

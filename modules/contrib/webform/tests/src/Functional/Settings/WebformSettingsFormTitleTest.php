@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\webform\Functional\Settings;
 
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Tests\webform\Functional\WebformBrowserTestBase;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformInterface;
@@ -24,7 +24,7 @@ class WebformSettingsFormTitleTest extends WebformBrowserTestBase {
   /**
    * Tests form title.
    */
-  public function testTitle(): void {
+  public function testTitle() {
     $assert_session = $this->assertSession();
 
     $node = $this->drupalCreateNode(['title' => 'test_node']);

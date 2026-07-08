@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\webform\Unit\Utility;
 
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Tests\UnitTestCase;
 use Drupal\webform\Utility\WebformYaml;
 
@@ -27,7 +27,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @dataProvider providerTidy
    */
-  public function testTidy(array $data, $expected): void {
+  public function testTidy(array $data, $expected) {
     $result = WebformYaml::tidy(Yaml::encode($data));
     $this->assertEquals($expected, $result);
   }
@@ -37,7 +37,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @see testTidy()
    */
-  public static function providerTidy() {
+  public function providerTidy() {
     $tests[] = [
       ['simple' => 'value'],
       "simple: value",
@@ -77,7 +77,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @dataProvider providerDecode
    */
-  public function testDecode($yaml, $expected): void {
+  public function testDecode($yaml, $expected) {
     $result = WebformYaml::decode($yaml);
     $this->assertEquals($expected, $result);
   }
@@ -87,7 +87,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @see testDecode()
    */
-  public static function providerDecode() {
+  public function providerDecode() {
     $tests[] = [
       "simple: value",
       ['simple' => 'value'],
@@ -139,7 +139,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @dataProvider providerEncode
    */
-  public function testEncode($yaml, $expected): void {
+  public function testEncode($yaml, $expected) {
     $result = WebformYaml::encode($yaml);
     $this->assertEquals($expected, $result);
   }
@@ -149,7 +149,7 @@ class WebformYamlTest extends UnitTestCase {
    *
    * @see testEncode()
    */
-  public static function providerEncode() {
+  public function providerEncode() {
     $tests[] = [
       ['simple' => 'value'],
       "simple: value",

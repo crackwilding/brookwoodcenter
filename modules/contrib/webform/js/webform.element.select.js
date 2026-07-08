@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Disable select menu options using JavaScript.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformSelectOptionsDisabled = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-select-options-disabled', 'select[data-webform-select-options-disabled]', context)).each(function () {
         var $select = $(this);
         var disabled = $select.attr('data-webform-select-options-disabled').split(/\s*,\s*/);

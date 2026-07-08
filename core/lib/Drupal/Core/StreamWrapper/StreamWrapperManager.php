@@ -3,8 +3,7 @@
 namespace Drupal\Core\StreamWrapper;
 
 use Drupal\Core\Site\Settings;
-use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
-use Symfony\Component\DependencyInjection\ServiceLocator;
+use Psr\Container\ContainerInterface;
 
 /**
  * Provides a StreamWrapper manager.
@@ -16,13 +15,23 @@ class StreamWrapperManager implements StreamWrapperManagerInterface {
   /**
    * Constructs a StreamWrapperManager object.
    *
-   * @param \Symfony\Component\DependencyInjection\ServiceLocator $container
-   *   A service locator containing stream wrapper services, keyed by scheme.
+   * @param \Psr\Container\ContainerInterface $container
+   *   The stream wrapper service locator.
    */
   public function __construct(
-    #[AutowireLocator('stream_wrapper', indexAttribute: 'scheme')]
-    protected readonly ServiceLocator $container,
+    protected readonly ContainerInterface $container,
   ) {}
+
+  /**
+   * Contains stream wrapper info.
+   *
+   * An associative array where keys are scheme names and values are themselves
+   * associative arrays with the keys class, type and (optionally) service_id,
+   * and string values.
+   *
+   * @var array
+   */
+  protected $info = [];
 
   /**
    * Contains collected stream wrappers.
@@ -33,6 +42,7 @@ class StreamWrapperManager implements StreamWrapperManagerInterface {
    *   - class: stream wrapper class name
    *   - type: a bitmask corresponding to the type constants in
    *     StreamWrapperInterface
+   *   - service_id: name of service
    *
    * The array on key StreamWrapperInterface::ALL contains representations of
    * all schemes and corresponding wrappers.
@@ -106,9 +116,10 @@ class StreamWrapperManager implements StreamWrapperManagerInterface {
    * {@inheritdoc}
    */
   public function getClass($scheme) {
-    if ($this->container->has($scheme)) {
-      return get_class($this->container->get($scheme));
+    if (isset($this->info[$scheme])) {
+      return $this->info[$scheme]['class'];
     }
+
     return FALSE;
   }
 
@@ -120,12 +131,12 @@ class StreamWrapperManager implements StreamWrapperManagerInterface {
    * @param string $uri
    *   The URI of the stream.
    *
-   * @return \Drupal\Core\StreamWrapper\StreamWrapperInterface|false
+   * @return \Drupal\Core\StreamWrapper\StreamWrapperInterface|bool
    *   A stream wrapper object, or false if the scheme is not available.
    */
   protected function getWrapper($scheme, $uri) {
-    if ($this->container->has($scheme)) {
-      $instance = $this->container->get($scheme);
+    if (isset($this->info[$scheme]['service_id'])) {
+      $instance = $this->container->get($this->info[$scheme]['service_id']);
       $instance->setUri($uri);
       return $instance;
     }
@@ -134,14 +145,33 @@ class StreamWrapperManager implements StreamWrapperManagerInterface {
   }
 
   /**
+   * Adds a stream wrapper.
+   *
+   * Internal use only.
+   *
+   * @param string $service_id
+   *   The service id.
+   * @param string $class
+   *   The stream wrapper class.
+   * @param string $scheme
+   *   The scheme for which the wrapper should be registered.
+   */
+  public function addStreamWrapper($service_id, $class, $scheme) {
+    $this->info[$scheme] = [
+      'class' => $class,
+      'type' => $class::getType(),
+      'service_id' => $service_id,
+    ];
+  }
+
+  /**
    * Registers the tagged stream wrappers.
    *
    * Internal use only.
    */
   public function register() {
-    foreach (array_keys($this->container->getProvidedServices()) as $scheme) {
-      $class = $this->getClass($scheme);
-      $this->registerWrapper($scheme, $class, $class::getType());
+    foreach ($this->info as $scheme => $info) {
+      $this->registerWrapper($scheme, $info['class'], $info['type']);
     }
   }
 

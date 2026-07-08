@@ -28,7 +28,7 @@ class WebformResultsExportOptionsTest extends WebformBrowserTestBase {
   /**
    * Tests export options.
    */
-  public function testExportOptions(): void {
+  public function testExportOptions() {
     $assert_session = $this->assertSession();
 
     $admin_submission_user = $this->drupalCreateUser([

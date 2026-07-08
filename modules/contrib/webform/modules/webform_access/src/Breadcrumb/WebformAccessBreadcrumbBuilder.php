@@ -4,7 +4,6 @@ namespace Drupal\webform_access\Breadcrumb;
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -38,13 +37,10 @@ class WebformAccessBreadcrumbBuilder implements BreadcrumbBuilderInterface {
   /**
    * {@inheritdoc}
    */
-  public function applies(RouteMatchInterface $route_match, ?CacheableMetadata $cacheable_metadata = NULL) {
-    // @todo Remove null safe operator after Drupal 12.0.0 becomes the minimum
-    //   requirement, see https://www.drupal.org/project/drupal/issues/3459277.
-    $cacheable_metadata?->addCacheContexts(['route']);
+  public function applies(RouteMatchInterface $route_match) {
     $route_name = $route_match->getRouteName();
     // All routes must begin or contain 'webform_access'.
-    if (!str_contains($route_name, 'webform_access')) {
+    if (strpos($route_name, 'webform_access') === FALSE) {
       return FALSE;
     }
 
@@ -54,14 +50,14 @@ class WebformAccessBreadcrumbBuilder implements BreadcrumbBuilderInterface {
 
     $path = Url::fromRouteMatch($route_match)->toString();
 
-    if (!str_contains($path, 'admin/structure/webform/access/')) {
+    if (strpos($path, 'admin/structure/webform/access/') === FALSE) {
       return FALSE;
     }
 
-    if (str_contains($path, 'admin/structure/webform/access/group/manage/')) {
+    if (strpos($path, 'admin/structure/webform/access/group/manage/') !== FALSE) {
       $this->type = 'webform_access_group';
     }
-    elseif (str_contains($path, 'admin/structure/webform/access/type/manage/')) {
+    elseif (strpos($path, 'admin/structure/webform/access/type/manage/') !== FALSE) {
       $this->type = 'webform_access_type';
     }
     else {
@@ -93,8 +89,6 @@ class WebformAccessBreadcrumbBuilder implements BreadcrumbBuilderInterface {
 
     // This breadcrumb builder is based on a route parameter, and hence it
     // depends on the 'route' cache context.
-    // @todo Remove after Drupal 12.0.0 becomes the minimum requirement,
-    //   see https://www.drupal.org/project/drupal/issues/3459277.
     $breadcrumb->addCacheContexts(['route']);
 
     return $breadcrumb;

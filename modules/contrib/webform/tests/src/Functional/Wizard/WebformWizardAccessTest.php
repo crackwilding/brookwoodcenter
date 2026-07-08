@@ -21,7 +21,7 @@ class WebformWizardAccessTest extends WebformWizardTestBase {
   /**
    * Test webform custom wizard.
    */
-  public function testConditionalWizard(): void {
+  public function testConditionalWizard() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_form_wizard_access');

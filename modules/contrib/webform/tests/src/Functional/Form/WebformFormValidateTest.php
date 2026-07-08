@@ -29,7 +29,7 @@ class WebformFormValidateTest extends WebformBrowserTestBase {
   /**
    * Tests form (custom) validation.
    */
-  public function testValidate(): void {
+  public function testValidate() {
     $assert_session = $this->assertSession();
 
     /* Test form#validate webform handling */

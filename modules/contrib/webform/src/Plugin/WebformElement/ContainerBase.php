@@ -120,11 +120,6 @@ abstract class ContainerBase extends WebformElementBase {
     /** @var \Drupal\webform\WebformSubmissionViewBuilderInterface $view_builder */
     $view_builder = $this->entityTypeManager->getViewBuilder('webform_submission');
     $children = $view_builder->buildElements($element, $webform_submission, $options, 'html');
-    if (!empty($options['excluded_elements'])) {
-      $children = array_diff_key($children, array_flip($options['excluded_elements']));
-    }
-
-    // No need to format the item if it has no children.
     if (empty($children)) {
       return [];
     }
@@ -196,11 +191,6 @@ abstract class ContainerBase extends WebformElementBase {
     /** @var \Drupal\webform\WebformSubmissionViewBuilderInterface $view_builder */
     $view_builder = $this->entityTypeManager->getViewBuilder('webform_submission');
     $children = $view_builder->buildElements($element, $webform_submission, $options, 'text');
-    if (!empty($options['excluded_elements'])) {
-      $children = array_diff_key($children, array_flip($options['excluded_elements']));
-    }
-
-    // No need to format the item if it has no children.
     if (empty($children)) {
       return [];
     }
@@ -228,13 +218,10 @@ abstract class ContainerBase extends WebformElementBase {
 
     // Parse children from template and children to context.
     $template = trim($element['#format_' . $name]);
-    if (str_contains($template, 'children')) {
+    if (strpos($template, 'children') !== FALSE) {
       /** @var \Drupal\webform\WebformSubmissionViewBuilderInterface $view_builder */
       $view_builder = $this->entityTypeManager->getViewBuilder('webform_submission');
       $context['children'] = $view_builder->buildElements($element, $webform_submission, $options, $name);
-      if (!empty($options['excluded_elements'])) {
-        $context['children'] = array_diff_key($context['children'], array_flip($options['excluded_elements']));
-      }
     }
 
     return parent::formatCustomItem($type, $element, $webform_submission, $options, $context);

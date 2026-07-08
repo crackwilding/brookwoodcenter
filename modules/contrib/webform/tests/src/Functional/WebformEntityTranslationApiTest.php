@@ -21,7 +21,7 @@ class WebformEntityTranslationApiTest extends WebformBrowserTestBase {
   /**
    * Tests webform translation API.
    */
-  public function testTranslationApu(): void {
+  public function testTranslationApu() {
 
     /* ********************************************************************** */
     // Untranslated (English) webform.

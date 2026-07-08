@@ -8,7 +8,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 use Drupal\Core\Render\Markup;
 use Drupal\webform\Element\WebformCompositeFormElementTrait;
 use Drupal\webform\Utility\WebformArrayHelper;
@@ -22,7 +22,7 @@ use Drupal\webform_options_custom\Entity\WebformOptionsCustom as WebformOptionsC
  *
  * @FormElement("webform_options_custom")
  */
-class WebformOptionsCustom extends FormElementBase implements WebformOptionsCustomInterface {
+class WebformOptionsCustom extends FormElement implements WebformOptionsCustomInterface {
 
   use WebformCompositeFormElementTrait;
 
@@ -305,21 +305,21 @@ class WebformOptionsCustom extends FormElementBase implements WebformOptionsCust
     }
 
     // Get option value and text attributes.
-    $value_attribute_name = '';
+    $value_attribute_name = NULL;
     if ($element['#value_attributes']) {
       $value_attributes = preg_split('/\s*,\s*/', trim($element['#value_attributes']));
       foreach ($value_attributes as $value_attribute) {
-        if (str_contains($element['#template'], $value_attribute)) {
+        if (strpos($element['#template'], $value_attribute) !== FALSE) {
           $value_attribute_name = $value_attribute;
           break;
         }
       }
     }
-    $text_attribute_name = '';
+    $text_attribute_name = NULL;
     if ($element['#text_attributes']) {
       $text_attributes = preg_split('/\s*,\s*/', trim($element['#text_attributes']));
       foreach ($text_attributes as $text_attribute) {
-        if (str_contains($element['#template'], $text_attribute)) {
+        if (strpos($element['#template'], $text_attribute) !== FALSE) {
           $text_attribute_name = $text_attribute;
           break;
         }

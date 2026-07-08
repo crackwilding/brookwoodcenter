@@ -2,14 +2,14 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Core\Render\Element\RenderElementBase;
+use Drupal\Core\Render\Element\RenderElement;
 
 /**
  * Provides a render element to display webform submission navigation.
  *
  * @RenderElement("webform_submission_navigation")
  */
-class WebformSubmissionNavigation extends RenderElementBase {
+class WebformSubmissionNavigation extends RenderElement {
 
   /**
    * {@inheritdoc}

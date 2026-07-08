@@ -24,7 +24,7 @@ class WebformOptionsLimitBooleanTest extends WebformBrowserTestBase {
   /**
    * Test options limit.
    */
-  public function testOptionsLimit(): void {
+  public function testOptionsLimit() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_handler_boolean_limit');

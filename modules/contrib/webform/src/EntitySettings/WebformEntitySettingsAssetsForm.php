@@ -2,7 +2,7 @@
 
 namespace Drupal\webform\EntitySettings;
 
-use Drupal\Component\Utility\DeprecationHelper;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Element\WebformMessage;
 
@@ -29,7 +29,7 @@ class WebformEntitySettingsAssetsForm extends WebformEntitySettingsBaseForm {
       '#type' => 'fieldset',
       '#title' => $this->t('Custom CSS'),
       '#description' => $this->t('Enter custom CSS to be attached to the webform.') . '<br/>' .
-      $this->t("To customize only webform specific elements, you should use the '.webform-submission-form' selector"),
+        $this->t("To customize only webform specific elements, you should use the '.webform-submission-form' selector"),
     ];
     $form['css']['css'] = [
       '#type' => 'webform_codemirror',
@@ -63,16 +63,11 @@ class WebformEntitySettingsAssetsForm extends WebformEntitySettingsBaseForm {
     $webform->setCss($form_state->getValue('css'));
     $webform->setJavaScript($form_state->getValue('javascript'));
 
-    // Reset libraries cache.
+    // Invalidate library_info cache tag.
     // @see webform_library_info_build()
-    DeprecationHelper::backwardsCompatibleCall(
-      currentVersion: \Drupal::VERSION,
-      deprecatedVersion: '11.1',
-      currentCallable: fn() => \Drupal::service('library.discovery')->clear(),
-      deprecatedCallable: fn() => \Drupal::service('library.discovery')->clearCachedDefinitions(),
-    );
+    Cache::invalidateTags(['library_info']);
 
-    return parent::save($form, $form_state);
+    parent::save($form, $form_state);
   }
 
 }

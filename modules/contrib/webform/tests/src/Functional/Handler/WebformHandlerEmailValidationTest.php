@@ -22,7 +22,7 @@ class WebformHandlerEmailValidationTest extends WebformBrowserTestBase {
   /**
    * Test basic email handler.
    */
-  public function testBasicEmailHandler(): void {
+  public function testBasicEmailHandler() {
     $assert_session = $this->assertSession();
 
     /** @var \Drupal\webform\WebformInterface $webform */

@@ -36,6 +36,13 @@ class WebformThirdPartySettingsManager implements WebformThirdPartySettingsManag
   protected $pathValidator;
 
   /**
+   * The webform add-ons manager.
+   *
+   * @var \Drupal\webform\WebformAddonsManagerInterface
+   */
+  protected $addonsManager;
+
+  /**
    * The Webform module's default configuration settings.
    *
    * @var \Drupal\Core\Config\Config
@@ -51,11 +58,14 @@ class WebformThirdPartySettingsManager implements WebformThirdPartySettingsManag
    *   The module handler class to use for loading includes.
    * @param \Drupal\Core\Path\PathValidatorInterface $path_validator
    *   The path validator service.
+   * @param \Drupal\webform\WebformAddonsManagerInterface $addons_manager
+   *   The webform add-ons manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, PathValidatorInterface $path_validator) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, PathValidatorInterface $path_validator, WebformAddonsManagerInterface $addons_manager) {
     $this->configFactory = $config_factory;
     $this->moduleHandler = $module_handler;
     $this->pathValidator = $path_validator;
+    $this->addonsManager = $addons_manager;
 
     $this->config = $this->configFactory->get('webform.settings');
     $this->loadIncludes();

@@ -41,7 +41,7 @@ class WebformNodeTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform node.
    */
-  public function testNode(): void {
+  public function testNode() {
     global $base_path;
 
     $assert_session = $this->assertSession();

@@ -21,7 +21,7 @@ class WebformNodeAccessClosedTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform node closed access.
    */
-  public function testAccessClosed(): void {
+  public function testAccessClosed() {
     $assert_session = $this->assertSession();
 
     $node = $this->createWebformNode('contact');

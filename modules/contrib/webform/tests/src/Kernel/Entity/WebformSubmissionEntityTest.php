@@ -36,7 +36,7 @@ class WebformSubmissionEntityTest extends KernelTestBase {
   /**
    * Tests some of the methods.
    */
-  public function testWebformMethods(): void {
+  public function testWebformMethods() {
     /** @var \Drupal\webform\WebformInterface $webform */
     $webform = Webform::create(['id' => 'webform_test', 'title' => 'Test']);
     $elements = [

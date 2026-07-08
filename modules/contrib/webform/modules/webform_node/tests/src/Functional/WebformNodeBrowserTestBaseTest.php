@@ -12,7 +12,7 @@ class WebformNodeBrowserTestBaseTest extends WebformNodeBrowserTestBase {
   /**
    * Test base helper methods.
    */
-  public function testWebformNodeBase(): void {
+  public function testWebformNodeBase() {
     $this->drupalLogin($this->rootUser);
 
     // Check WebformNodeBrowserTestBase::createWebformNode.

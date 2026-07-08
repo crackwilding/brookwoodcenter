@@ -23,7 +23,7 @@ class WebformElementCheckboxesJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Tests check all or none of the above.
    */
-  public function testCheckboxesAllNone(): void {
+  public function testCheckboxesAllNone() {
     $assert_session = $this->assertSession();
 
     /* ********************************************************************** */

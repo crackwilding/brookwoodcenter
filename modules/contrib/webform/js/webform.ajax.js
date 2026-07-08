@@ -3,7 +3,10 @@
  * JavaScript behaviors for Ajax.
  */
 
-(function ($, Drupal, drupalSettings, once, tabbable) {
+(function ($, Drupal, drupalSettings, once) {
+
+  'use strict';
+
   Drupal.webform = Drupal.webform || {};
   Drupal.webform.ajax = Drupal.webform.ajax || {};
   // Allow scrollTopOffset to be custom defined or based on whether there is a
@@ -26,7 +29,7 @@
    *   Attaches the behavior to a.webform-ajax-link.
    */
   Drupal.behaviors.webformAjaxLink = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-ajax-link', '.webform-ajax-link', context)).each(function () {
         var element_settings = {};
         element_settings.progress = {type: 'fullscreen'};
@@ -67,7 +70,7 @@
    * @see Drupal.behaviors.webformFormTabs
    */
   Drupal.behaviors.webformAjaxHash = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-ajax-hash', '[data-hash]', context)).each(function () {
         var hash = $(this).data('hash');
         if (hash) {
@@ -88,7 +91,7 @@
    *   Attaches the behavior to confirmation back to link.
    */
   Drupal.behaviors.webformConfirmationBackAjax = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-confirmation-back-ajax', '.js-webform-confirmation-back-link-ajax', context))
         .on('click', function (event) {
           var $form = $(this).parents('form');
@@ -164,11 +167,7 @@
       setTimeout(function () {$element.removeClass('color-success');}, 3000);
 
       // Focus first tabbable item for the updated elements and handlers.
-      const tabbableElements = tabbable.tabbable($element.get(0));
-      const filteredElements = tabbableElements.filter(element => !element.classList.contains('tabledrag-handle'));
-      if (filteredElements.length) {
-        filteredElements[0].focus();
-      }
+      $element.find(':tabbable:not(.tabledrag-handle)').eq(0).trigger('focus');
 
       // Scroll element into view.
       Drupal.webformScrolledIntoView($element);
@@ -256,9 +255,6 @@
       updateKey = (response.url.match(/[?|&]update=([^&]+)($|&)/)) ? RegExp.$1 : null;
       addElement = (response.url.match(/[?|&]add_element=([^&]+)($|&)/)) ? RegExp.$1 : null;
       $('.webform-ajax-refresh').trigger('click');
-      // Ensure the off canvas dialog is always closed and removed.
-      // @see Drupal.AjaxCommands.prototype.closeDialog
-      $('#drupal-off-canvas').hide();
     }
     else {
       // Clear unsaved information flag so that the current webform page
@@ -298,11 +294,11 @@
    *   The HTTP status code.
    */
   Drupal.AjaxCommands.prototype.webformCloseDialog = function (ajax, response, status) {
-    if ($('#drupal-off-canvas-wrapper').length) {
+    if ($('#drupal-off-canvas').length) {
       // Close off-canvas system tray which is not triggered by close dialog
       // command.
       // @see Drupal.behaviors.offCanvasEvents
-      $('#drupal-off-canvas-wrapper').remove();
+      $('#drupal-off-canvas').remove();
       $('body').removeClass('js-tray-open');
       // Remove all *.off-canvas events
       $(document).off('.off-canvas');
@@ -337,4 +333,4 @@
     }
   };
 
-})(jQuery, Drupal, drupalSettings, once, tabbable);
+})(jQuery, Drupal, drupalSettings, once);

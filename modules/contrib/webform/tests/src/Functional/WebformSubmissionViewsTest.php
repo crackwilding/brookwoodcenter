@@ -35,7 +35,7 @@ class WebformSubmissionViewsTest extends WebformBrowserTestBase {
   /**
    * Tests submissions views.
    */
-  public function testSubmissionViewsAccess(): void {
+  public function testSubmissionViewsAccess() {
     $assert_session = $this->assertSession();
 
     // Check administer view.
@@ -72,7 +72,7 @@ class WebformSubmissionViewsTest extends WebformBrowserTestBase {
   /**
    * Tests submissions views.
    */
-  public function testSubmissionViews(): void {
+  public function testSubmissionViews() {
     $assert_session = $this->assertSession();
 
     $uid = $this->rootUser->id();

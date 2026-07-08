@@ -19,7 +19,7 @@ class WebformElementOptionsTest extends WebformElementBrowserTestBase {
   /**
    * Tests options element.
    */
-  public function testElementOptions(): void {
+  public function testElementOptions() {
     $assert_session = $this->assertSession();
 
     // Check options maxlength.

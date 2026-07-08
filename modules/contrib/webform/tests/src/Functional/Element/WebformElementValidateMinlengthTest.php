@@ -21,7 +21,7 @@ class WebformElementValidateMinlengthTest extends WebformElementBrowserTestBase 
   /**
    * Tests element validate minlength.
    */
-  public function testValidateMinlength(): void {
+  public function testValidateMinlength() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_element_validate_minlength');

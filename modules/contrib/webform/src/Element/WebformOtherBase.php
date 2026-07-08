@@ -6,7 +6,7 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\OptGroup;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 use Drupal\webform\Utility\WebformElementHelper;
 use Drupal\webform\Utility\WebformFormHelper;
 use Drupal\webform\Utility\WebformOptionsHelper;
@@ -14,7 +14,7 @@ use Drupal\webform\Utility\WebformOptionsHelper;
 /**
  * Base class for webform other element.
  */
-abstract class WebformOtherBase extends FormElementBase {
+abstract class WebformOtherBase extends FormElement {
 
   use WebformCompositeFormElementTrait;
 
@@ -129,7 +129,7 @@ abstract class WebformOtherBase extends FormElementBase {
     // Build other textfield.
     $element += ['other' => []];
     foreach ($element as $key => $value) {
-      if (str_starts_with($key, '#other__')) {
+      if (strpos($key, '#other__') === 0) {
         $other_key = str_replace('#other__', '#', $key);
         if (!isset($element['other'][$other_key])) {
           $element['other'][$other_key] = $value;
@@ -341,10 +341,7 @@ abstract class WebformOtherBase extends FormElementBase {
   protected static function convertDefaultValueToElementValue(array $element) {
     $type = str_replace('webform_', '', static::$type);
 
-    $default_value = $element['#default_value'] ?? NULL;
-    if ($default_value === '' || $default_value === ['']) {
-      $default_value = NULL;
-    }
+    $default_value = isset($element['#default_value']) && $element['#default_value'] !== '' ? $element['#default_value'] : NULL;
     if (static::isMultiple($element)) {
       // Handle edge case where $default_value is not an array.
       if (!is_array($default_value)) {

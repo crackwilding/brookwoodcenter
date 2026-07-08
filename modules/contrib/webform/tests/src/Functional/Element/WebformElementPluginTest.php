@@ -29,7 +29,7 @@ class WebformElementPluginTest extends WebformElementBrowserTestBase {
   /**
    * Tests webform element plugin.
    */
-  public function testElementPlugin(): void {
+  public function testElementPlugin() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

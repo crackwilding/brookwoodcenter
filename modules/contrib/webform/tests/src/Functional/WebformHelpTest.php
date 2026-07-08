@@ -28,7 +28,7 @@ class WebformHelpTest extends WebformBrowserTestBase {
   /**
    * Tests webform help.
    */
-  public function testHelp(): void {
+  public function testHelp() {
     $assert_session = $this->assertSession();
 
     /* ********************************************************************** */

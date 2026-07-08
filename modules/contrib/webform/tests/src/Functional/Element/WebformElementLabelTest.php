@@ -19,7 +19,7 @@ class WebformElementLabelTest extends WebformElementBrowserTestBase {
   /**
    * Test label element.
    */
-  public function testMarkup(): void {
+  public function testMarkup() {
     $assert_session = $this->assertSession();
 
     // Get form.

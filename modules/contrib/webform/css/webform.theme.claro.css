@@ -185,6 +185,22 @@ table.webform-states-table td.webform-states-table--condition > .form-item > .fo
 }
 
 /*****************************************************************************   */
+/* Form */
+/*****************************************************************************   */
+
+/**
+ * Remove margin around checkboxes buttons.
+ *
+ * @see claro/css/src/components/form--checkbox-radio.css
+ */
+.webform-options-display-buttons .form-type--boolean {
+  margin-left: 0;
+}
+[dir="rtl"] .webform-options-display-buttons .form-type--boolean {
+  margin-right: 0;
+}
+
+/*****************************************************************************   */
 /* Filter */
 /*****************************************************************************   */
 
@@ -245,6 +261,19 @@ div.webform-form-filter input.webform-form-filter-text {
 }
 
 /**
+ * Add-ons.
+ *
+ * @see /admin/structure/webform/addons
+ */
+.webform-addons .admin-item__link {
+  display: block;
+}
+
+.webform-addons .claro-details__wrapper {
+  margin: 0;
+}
+
+/**
  * Multiple elements.
  */
 .webform-multiple-table td > .form-item:only-child,
@@ -296,10 +325,10 @@ div.webform-form-filter input.webform-form-filter-text {
   margin: 0;
 }
 
-#drupal-off-canvas-wrapper.webform-off-canvas .form-type--boolean {
+.webform-off-canvas #drupal-off-canvas .form-type--boolean {
   margin-left: 1.6875rem;
 }
 
-#drupal-off-canvas-wrapper.webform-off-canvas .form-item .form-item__description {
+.webform-off-canvas #drupal-off-canvas .form-item .form-item__description {
   color: #55565b;
 }

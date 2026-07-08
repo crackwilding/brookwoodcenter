@@ -22,7 +22,7 @@ class WebformFormPropertiesTest extends WebformBrowserTestBase {
   /**
    * Test form properties.
    */
-  public function testProperties(): void {
+  public function testProperties() {
     global $base_path;
 
     $assert_session = $this->assertSession();

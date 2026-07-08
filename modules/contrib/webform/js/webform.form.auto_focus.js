@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal) {
+
+  'use strict';
+
   /**
    * Autofocus first input.
    *
@@ -13,7 +16,7 @@
    *   Attaches the behavior for the webform autofocusing.
    */
   Drupal.behaviors.webformAutofocus = {
-    attach(context) {
+    attach: function (context) {
       $(context).find('.js-webform-autofocus :input:visible:enabled:first')
         .trigger('focus');
     }

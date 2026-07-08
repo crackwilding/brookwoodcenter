@@ -24,7 +24,7 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
   /**
    * Test options limit.
    */
-  public function testOptionsLimit(): void {
+  public function testOptionsLimit() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_handler_options_limit');
@@ -48,13 +48,13 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
     $assert_session->responseContains('1 option remaining / 1 limit / 0 total');
 
     // Check that option H is available.
-    $this->assertEquals('H', $assert_session->optionExists('options_limit_select_disable[]', 'H [1 remaining]')->getValue());
+    $assert_session->responseContains('<option value="H" selected="selected">H [1 remaining]</option>');
 
     // Check that option K is available.
-    $this->assertEquals('K', $assert_session->optionExists('options_limit_select_remove[]', 'K [1 remaining]')->getValue());
+    $assert_session->responseContains('<option value="K" selected="selected">K [1 remaining]</option>');
 
     // Check that option O is available.
-    $this->assertEquals('O', $assert_session->optionExists('options_limit_select_none[]', 'O [1 remaining]')->getValue());
+    $assert_session->responseContains('<option value="O" selected="selected">O [1 remaining]</option>');
 
     // Check that table select multiple is available.
     $assert_session->checkboxChecked('options_limit_tableselect_multiple[U]');
@@ -80,14 +80,14 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
     $assert_session->responseContains('No options remaining / 1 limit / 1 total');
 
     // Check that option H is no longer selected and disabled via JavaScript.
-    $this->assertEquals('H', $assert_session->optionExists('options_limit_select_disable[]', 'H [0 remaining]')->getValue());
+    $assert_session->responseContains('<option value="H">H [0 remaining]</option>');
     $assert_session->responseContains('data-webform-select-options-disabled="H"');
 
     // Check that option K was removed.
     $assert_session->responseNotContains('<option value="K"');
 
     // Check that option O was not changed but is not selected.
-    $this->assertEquals('O', $assert_session->optionExists('options_limit_select_none[]', 'O [0 remaining]')->getValue());
+    $assert_session->responseContains('<option value="O">O [0 remaining]</option>');
 
     // Check that table select multiple is NOT available.
     $assert_session->fieldNotExists('edit-options-limit-tableselect-multiple-u');
@@ -102,7 +102,7 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
     $this->postSubmission($webform, ['options_limit_select_none[]' => 'O']);
     $assert_session->responseContains('options_limit_select_none: O is unavailable.');
 
-    // Check that unavailable option can't be prepopulated.
+    // Chech that unavailable option can't be prepopulated.
     $this->drupalGet('/webform/test_handler_options_limit', ['query' => ['options_limit_default[]' => 'A']]);
     $assert_session->checkboxNotChecked('edit-options-limit-default-a');
     $this->drupalGet('/webform/test_handler_options_limit', ['query' => ['options_limit_default[]' => 'B']]);
@@ -123,7 +123,11 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
 
     // Check that random test values are the only available options.
     $this->drupalGet('/webform/test_handler_options_limit/test');
-    $this->assertEquals('J', $assert_session->optionExists('options_limit_select_disable[]', 'J [Unlimited]')->getValue());
+    $assert_session->responseContains('<option value="J" selected="selected">J [Unlimited]</option>');
+    $this->drupalGet('/webform/test_handler_options_limit/test');
+    $assert_session->responseContains('<option value="J" selected="selected">J [Unlimited]</option>');
+    $this->drupalGet('/webform/test_handler_options_limit/test');
+    $assert_session->responseContains('<option value="J" selected="selected">J [Unlimited]</option>');
 
     // Check that existing submission values are not disabled.
     $this->drupalGet("/admin/structure/webform/manage/test_handler_options_limit/submission/$sid_1/edit");
@@ -131,9 +135,9 @@ class WebformOptionsLimitTest extends WebformBrowserTestBase {
     $assert_session->responseContains('A [0 remaining]');
     $assert_session->responseContains('<input data-drupal-selector="edit-options-limit-messages-d" aria-describedby="edit-options-limit-messages-d--description" type="checkbox" id="edit-options-limit-messages-d" name="options_limit_messages[D]" value="D" checked="checked" class="form-checkbox" />');
     $assert_session->responseContains('No options remaining / 1 limit / 1 total');
-    $this->assertEquals('H', $assert_session->optionExists('options_limit_select_disable[]', 'H [0 remaining]')->getValue());
-    $this->assertEquals('K', $assert_session->optionExists('options_limit_select_remove[]', 'K [0 remaining]')->getValue());
-    $this->assertEquals('O', $assert_session->optionExists('options_limit_select_none[]', 'O [0 remaining]')->getValue());
+    $assert_session->responseContains('<option value="H" selected="selected">H [0 remaining]</option>');
+    $assert_session->responseContains('<option value="K" selected="selected">K [0 remaining]</option>');
+    $assert_session->responseContains('<option value="O" selected="selected">O [0 remaining]</option>');
 
     // Check that Options limit report is available.
     $this->drupalLogin($this->rootUser);

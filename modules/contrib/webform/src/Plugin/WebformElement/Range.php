@@ -98,7 +98,7 @@ class Range extends NumericBase {
 
       // Copy custom output properties to output element.
       foreach ($element as $key => $value) {
-        if (str_starts_with($key, '#output__')) {
+        if (strpos($key, '#output__') === 0) {
           $output_key = str_replace('#output__', '#', $key);
           $output[$output_key] = $value;
         }
@@ -117,9 +117,7 @@ class Range extends NumericBase {
 
       // Calculate the output's width based on the #max number's string length.
       $output['#attributes'] += ['style' => ''];
-      $max_string_length = strlen($element['#max'] . '');
-      $max_string_length = ($max_string_length > 4) ? $max_string_length : 4;
-      $output['#attributes']['style'] .= ($output['#attributes']['style'] ? ';' : '') . 'width:' . ($max_string_length + 1.5) . 'em';
+      $output['#attributes']['style'] .= ($output['#attributes']['style'] ? ';' : '') . 'width:' . (strlen($element['#max'] . '') + 1) . 'em';
 
       // Append output element as a child.
       if ($element['#output'] === 'left') {
@@ -131,7 +129,7 @@ class Range extends NumericBase {
           ];
         }
         else {
-          $element['#field_prefix'] = [
+          $element['#field_suffix'] = [
             'output' => $output,
             'delimiter' => ['#markup' => '<span class="webform-range-output-delimiter"></span>'],
           ];

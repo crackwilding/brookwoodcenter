@@ -6,14 +6,12 @@ namespace Drupal\FunctionalJavascriptTests\Ajax;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests AJAX responses.
+ *
+ * @group Ajax
  */
-#[Group('Ajax')]
-#[RunTestsInSeparateProcesses]
 class AjaxTest extends WebDriverTestBase {
 
   /**
@@ -26,21 +24,11 @@ class AjaxTest extends WebDriverTestBase {
    */
   protected $defaultTheme = 'stark';
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp(): void {
-    if ($this->name() === 'testAjaxFocus') {
-      $this->markTestSkipped("Skipped due to frequent random test failures. See https://www.drupal.org/project/drupal/issues/3396536");
-    }
-    parent::setUp();
-  }
-
   public function testAjaxWithAdminRoute(): void {
-    \Drupal::service('theme_installer')->install(['stark', 'claro']);
+    \Drupal::service('theme_installer')->install(['stable9', 'claro']);
     $theme_config = \Drupal::configFactory()->getEditable('system.theme');
     $theme_config->set('admin', 'claro');
-    $theme_config->set('default', 'stark');
+    $theme_config->set('default', 'stable9');
     $theme_config->save();
 
     $account = $this->drupalCreateUser(['view the administration theme']);
@@ -54,11 +42,11 @@ class AjaxTest extends WebDriverTestBase {
 
     // Now click the modal, which should use the front-end theme.
     $this->drupalGet('ajax-test/dialog');
-    $assert->pageTextNotContains('Current theme: stark');
+    $assert->pageTextNotContains('Current theme: stable9');
     $this->clickLink('Link 8 (ajax)');
     $assert->assertWaitOnAjaxRequest();
 
-    $assert->pageTextContains('Current theme: stark');
+    $assert->pageTextContains('Current theme: stable9');
     $assert->pageTextNotContains('Current theme: claro');
   }
 
@@ -319,6 +307,7 @@ JS;
    * Tests ajax focus handling.
    */
   public function testAjaxFocus(): void {
+    $this->markTestSkipped("Skipped due to frequent random test failures. See https://www.drupal.org/project/drupal/issues/3396536");
     $this->drupalGet('/ajax_forms_test_get_form');
 
     $this->assertNotNull($select = $this->assertSession()->elementExists('css', '#edit-select'));
@@ -359,14 +348,6 @@ JS;
     $this->assertSession()->assertWaitOnAjaxRequest();
     $has_focus_id = $this->getSession()->evaluateScript('document.activeElement.id');
     $this->assertEquals('edit-textfield-3', $has_focus_id);
-
-    $this->assertNotNull($email_field1 = $this->assertSession()->elementExists('css', '#edit-email-field-1'));
-    // Test email field with 'blur' event listener.
-    $email_field1->setValue('user@example.com');
-    $email_field1->focus();
-    $this->assertSession()->assertWaitOnAjaxRequest();
-    $has_focus_id = $this->getSession()->evaluateScript('document.activeElement.id');
-    $this->assertEquals('edit-email-field-1', $has_focus_id);
   }
 
 }

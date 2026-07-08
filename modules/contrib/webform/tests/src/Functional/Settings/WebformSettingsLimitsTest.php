@@ -40,7 +40,7 @@ class WebformSettingsLimitsTest extends WebformBrowserTestBase {
   /**
    * Tests webform submission form limits.
    */
-  public function testFormLimits(): void {
+  public function testFormLimits() {
     $assert_session = $this->assertSession();
 
     $own_submission_user = $this->drupalCreateUser([

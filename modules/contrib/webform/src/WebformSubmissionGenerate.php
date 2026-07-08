@@ -2,9 +2,9 @@
 
 namespace Drupal\webform;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\OptGroup;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\webform\Plugin\WebformElementManagerInterface;
 
 /**
@@ -127,12 +127,7 @@ class WebformSubmissionGenerate implements WebformSubmissionGenerateInterface {
     }
     if ($maxlength) {
       foreach ($values as $index => $value) {
-        if (is_string($value)) {
-          $values[$index] = mb_substr($value, 0, $maxlength);
-        }
-        elseif (is_array($value) && isset($value['value'])) {
-          $values[$index]['value'] = mb_substr($value['value'], 0, $maxlength);
-        }
+        $values[$index] = mb_substr($value, 0, $maxlength);
       }
     }
 

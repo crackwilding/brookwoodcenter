@@ -43,7 +43,7 @@ class WebformRenderingTest extends WebformBrowserTestBase {
   /**
    * Test text format element.
    */
-  public function testRendering(): void {
+  public function testRendering() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('test_rendering');

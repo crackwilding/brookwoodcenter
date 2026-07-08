@@ -19,7 +19,7 @@ class WebformAccountAccessTest extends WebformAccessTestBase {
    * @covers ::checkSubmissionAccess
    * @covers ::checkOverviewAccess
    */
-  public function testWebformAccountAccess(): void {
+  public function testWebformAccountAccess() {
     // Mock anonymous account.
     $anonymous_account = $this->mockAccount();
 

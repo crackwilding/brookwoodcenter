@@ -3,10 +3,10 @@
 namespace Drupal\Tests\webform\Traits;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -162,13 +162,13 @@ trait WebformBrowserTestTrait {
     }
     else {
       $config_name = 'webform.webform.' . $id;
-      if (str_starts_with($id, 'test_')) {
+      if (strpos($id, 'test_') === 0) {
         $config_directory = __DIR__ . '/../../modules/webform_test/config/install';
       }
-      elseif (str_starts_with($id, 'example_')) {
+      elseif (strpos($id, 'example_') === 0) {
         $config_directory = __DIR__ . '/../../../modules/webform_examples/config/install';
       }
-      elseif (str_starts_with($id, 'template_')) {
+      elseif (strpos($id, 'template_') === 0) {
         $config_directory = __DIR__ . '/../../../modules/webform_templates/config/install';
       }
       else {

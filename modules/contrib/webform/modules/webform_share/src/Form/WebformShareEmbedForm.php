@@ -103,7 +103,7 @@ class WebformShareEmbedForm extends FormBase {
       if (!empty($item['javascript'])) {
         $build['#javascript'] = $item['javascript'];
       }
-      $code = trim((string) $this->renderer->renderInIsolation($build));
+      $code = trim((string) $this->renderer->renderPlain($build));
 
       $form[$type] = [
         '#type' => 'container',

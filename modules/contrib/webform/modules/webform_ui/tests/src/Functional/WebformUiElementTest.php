@@ -39,7 +39,7 @@ class WebformUiElementTest extends WebformBrowserTestBase {
   /**
    * Tests element.
    */
-  public function testElements(): void {
+  public function testElements() {
     global $base_path;
 
     $assert_session = $this->assertSession();
@@ -310,7 +310,7 @@ class WebformUiElementTest extends WebformBrowserTestBase {
   /**
    * Tests permissions.
    */
-  public function testPermissions(): void {
+  public function testPermissions() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('contact');

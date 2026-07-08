@@ -2,14 +2,14 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Core\Render\Element\RenderElementBase;
+use Drupal\Core\Render\Element\RenderElement;
 
 /**
  * Provides a render element to display webform submission information.
  *
  * @RenderElement("webform_submission_information")
  */
-class WebformSubmissionInformation extends RenderElementBase {
+class WebformSubmissionInformation extends RenderElement {
 
   /**
    * {@inheritdoc}

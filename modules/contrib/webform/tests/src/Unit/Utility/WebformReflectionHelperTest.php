@@ -29,7 +29,7 @@ class WebformReflectionHelperTest extends UnitTestCase {
    *
    * @dataProvider providerGetParentClasses
    */
-  public function testGetParentClasses($object, $base_class_name, $expected): void {
+  public function testGetParentClasses($object, $base_class_name, $expected) {
     $result = WebformReflectionHelper::getParentClasses($object, $base_class_name);
     $this->assertEquals($expected, $result);
   }
@@ -39,7 +39,7 @@ class WebformReflectionHelperTest extends UnitTestCase {
    *
    * @see testGetParentClasses()
    */
-  public static function providerGetParentClasses() {
+  public function providerGetParentClasses() {
     $tests[] = [new WebformReflectionTestParent(), '', ['WebformReflectionTestParent']];
     $tests[] = [new WebformReflectionTestChild(), '', ['WebformReflectionTestParent', 'WebformReflectionTestChild']];
     $tests[] = [new WebformReflectionTestGrandChild(), '', ['WebformReflectionTestParent', 'WebformReflectionTestChild', 'WebformReflectionTestGrandChild']];

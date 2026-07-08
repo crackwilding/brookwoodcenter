@@ -21,7 +21,7 @@ class WebformElementButtonsTest extends WebformElementBrowserTestBase {
   /**
    * Tests buttons elements.
    */
-  public function testBuildingOtherElements(): void {
+  public function testBuildingOtherElements() {
     $assert_session = $this->assertSession();
 
     $this->drupalGet('/webform/test_element_buttons');

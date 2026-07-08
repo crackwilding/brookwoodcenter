@@ -22,7 +22,7 @@ class WebformHandlerEmailRolesTest extends WebformBrowserTestBase {
   /**
    * Test email roles handler.
    */
-  public function testEmailRoles(): void {
+  public function testEmailRoles() {
     $assert_session = $this->assertSession();
 
     // Enable all authenticated roles.

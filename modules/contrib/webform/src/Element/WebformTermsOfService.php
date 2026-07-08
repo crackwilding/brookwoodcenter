@@ -4,7 +4,6 @@ namespace Drupal\webform\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Checkbox;
-use Drupal\Core\Template\Attribute;
 
 /**
  * Provides a webform terms of service element.
@@ -28,13 +27,6 @@ class WebformTermsOfService extends Checkbox {
   const TERMS_MODAL = 'modal';
 
   /**
-   * Provides a link to a terms page.
-   *
-   * @var string
-   */
-  const TERMS_LINK = 'link';
-
-  /**
    * {@inheritdoc}
    */
   public function getInfo() {
@@ -43,8 +35,6 @@ class WebformTermsOfService extends Checkbox {
       '#terms_type' => static::TERMS_MODAL,
       '#terms_title' => '',
       '#terms_content' => '',
-      '#terms_link' => '',
-      '#terms_link_target' => '',
     ] + parent::getInfo();
   }
 
@@ -78,16 +68,8 @@ class WebformTermsOfService extends Checkbox {
       $element['#title'] = (string) t('I agree to the {terms of service}.');
     }
 
-    // Link to page if we have a link element.
-    if ($element['#terms_type'] === static::TERMS_LINK) {
-      $link_attributes = new Attribute(['href' => $element['#terms_link'], 'target' => $element['#terms_link_target'] ?: NULL]);
-      $element['#title'] = str_replace('{', '<a' . $link_attributes . '>', $element['#title']);
-      $element['#title'] = str_replace('}', '</a>', $element['#title']);
-    }
-    else {
-      $element['#title'] = str_replace('{', '<a role="button" href="#terms">', $element['#title']);
-      $element['#title'] = str_replace('}', '</a>', $element['#title']);
-    }
+    $element['#title'] = str_replace('{', '<a role="button" href="#terms">', $element['#title']);
+    $element['#title'] = str_replace('}', '</a>', $element['#title']);
 
     // Change description to render array.
     if (isset($element['#description'])) {
@@ -126,7 +108,7 @@ class WebformTermsOfService extends Checkbox {
 
     // Add accessibility attributes to title and content.
     if ($element['#type'] === static::TERMS_SLIDEOUT) {
-      // @todo Implement accessibility attributes.
+
     }
 
     // Set type to data attribute.

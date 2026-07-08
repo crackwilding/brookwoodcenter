@@ -32,7 +32,7 @@ class WebformSettingsLimitUniqueTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform submission form unique limit.
    */
-  public function testLimitUnique(): void {
+  public function testLimitUnique() {
     $assert_session = $this->assertSession();
 
     $webform_total_unique = Webform::load('test_form_limit_total_unique');

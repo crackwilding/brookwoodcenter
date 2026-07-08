@@ -14,7 +14,7 @@ class WebformExporterExcludedTest extends WebformBrowserTestBase {
   /**
    * Test excluded exporters.
    */
-  public function testExcludeExporters(): void {
+  public function testExcludeExporters() {
     $assert_session = $this->assertSession();
 
     $this->drupalLogin($this->rootUser);

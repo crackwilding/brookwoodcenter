@@ -19,7 +19,7 @@ class WebformElementValidatePatternTest extends WebformElementBrowserTestBase {
   /**
    * Tests pattern validation.
    */
-  public function testPattern(): void {
+  public function testPattern() {
     $assert_session = $this->assertSession();
 
     // Check rendering.

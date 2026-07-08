@@ -2,21 +2,16 @@
 
 /**
  * @file
- * Example variant module.
- */
-
-use Drupal\Core\Hook\Attribute\LegacyHook;
-use Drupal\webform_example_variant\Hook\WebformExampleVariantHooks;
-
-/**
- * @file
  * Provides an example of a webform variant.
  */
 
 /**
  * Implements hook_theme().
  */
-#[LegacyHook]
 function webform_example_variant_theme() {
-  return \Drupal::service(WebformExampleVariantHooks::class)->theme();
+  return [
+    'webform_variant_example_summary' => [
+      'variables' => ['settings' => NULL, 'variant' => []],
+    ],
+  ];
 }

@@ -21,7 +21,7 @@ class WebformCardsValidationJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Test webform cards validation.
    */
-  public function testValidation(): void {
+  public function testValidation() {
     $session = $this->getSession();
     $page = $session->getPage();
     $assert_session = $this->assertSession();

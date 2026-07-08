@@ -46,7 +46,6 @@ class WebformAttachmentUrl extends WebformAttachmentBase {
       '#title' => $this->t('URL/path'),
       '#description' => $this->t("Make sure the attachment URL/Path is publicly accessible. The attachment's URL/path will never be displayed to end users."),
       '#required' => TRUE,
-      '#maxlength' => 2048,
       '#element_validate' => [[get_class($this), 'validateAttachmentUrl']],
     ];
     if (function_exists('imce_process_url_element')) {
@@ -67,12 +66,12 @@ class WebformAttachmentUrl extends WebformAttachmentBase {
     $form_state->setValueForElement($element, $value);
 
     // Prepend scheme and host to root relative path.
-    if (str_starts_with($value, '/')) {
+    if (strpos($value, '/') === 0) {
       $value = \Drupal::request()->getSchemeAndHttpHost() . $value;
     }
 
     // Skip validating [webform_submission] tokens which can't be replaced.
-    if (str_contains($value, '[webform_submission:')) {
+    if (strpos($value, '[webform_submission:') !== FALSE) {
       return;
     }
 

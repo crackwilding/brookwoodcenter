@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   // @see https://github.com/cferdinandi/tabby
   Drupal.webform = Drupal.webform || {};
   Drupal.webform.formTabs = Drupal.webform.formTabs || {};
@@ -20,7 +23,7 @@
    * @see \Drupal\webform\Utility\WebformFormHelper::buildTabs
    */
   Drupal.behaviors.webformFormTabs = {
-    attach(context) {
+    attach: function (context) {
       if (!window.Tabby) {
         return;
       }
@@ -29,9 +32,8 @@
         // Set active tab and clear the location hash once it is set.
         var tabIndex = 0;
         if (location.hash) {
-          var hashTabIndex = $('a[href="' + Drupal.checkPlain(location.hash) + '"]').data('tab-index');
-          if (typeof hashTabIndex !== 'undefined') {
-            tabIndex = hashTabIndex;
+          tabIndex = $('a[href="' + Drupal.checkPlain(location.hash) + '"]').data('tab-index');
+          if (typeof tabIndex !== 'undefined') {
             location.hash = '';
           }
         }

@@ -4,13 +4,16 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Enhance text format element.
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.webformTextFormat = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-text-format', '.js-text-format-wrapper textarea', context)).each(function () {
         if (!window.CKEDITOR) {
           return;

@@ -38,7 +38,7 @@ JS;
   /**
    * Test variant randomize.
    */
-  public function testVariantRandomize(): void {
+  public function testVariantRandomize() {
     $webform = Webform::load('test_variant_randomize');
 
     $this->drupalGet('/webform/test_variant_randomize');

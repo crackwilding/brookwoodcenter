@@ -12,7 +12,7 @@ class WebformParagraphsDraftsTest extends WebformParagraphsTestBase {
   /**
    * Tests paragraphs draft (which are not working as expected).
    */
-  public function testParagraphsDrafts(): void {
+  public function testParagraphsDrafts() {
     $assert_session = $this->assertSession();
 
     /* ********************************************************************** */

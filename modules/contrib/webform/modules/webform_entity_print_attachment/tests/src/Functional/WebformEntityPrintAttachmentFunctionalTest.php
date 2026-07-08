@@ -20,7 +20,7 @@ class WebformEntityPrintAttachmentFunctionalTest extends WebformEntityPrintFunct
   /**
    * Test entity print attachment.
    */
-  public function testEntityPrintAttachment(): void {
+  public function testEntityPrintAttachment() {
     $webform = Webform::load('test_entity_print_attachment');
 
     $this->drupalLogin($this->rootUser);

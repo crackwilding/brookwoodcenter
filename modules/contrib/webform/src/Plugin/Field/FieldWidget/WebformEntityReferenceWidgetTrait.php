@@ -147,9 +147,10 @@ trait WebformEntityReferenceWidgetTrait {
     ];
 
     $element['settings']['scheduled'] = [
-      '#type' => 'fieldgroup',
+      '#type' => 'item',
       '#title' => $element['target_id']['#title'],
       '#title_display' => 'invisible',
+      '#input' => FALSE,
       '#states' => [
         'visible' => [
           'input[name="' . $field_input_name . '[settings][status]"]' => ['value' => WebformInterface::STATUS_SCHEDULED],

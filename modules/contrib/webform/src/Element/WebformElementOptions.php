@@ -2,11 +2,11 @@
 
 namespace Drupal\webform\Element;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
+use Drupal\Core\Serialization\Yaml;
 use Drupal\Core\Url;
 use Drupal\webform\Entity\WebformOptions as WebformOptionsEntity;
 use Drupal\webform\Utility\WebformElementHelper;
@@ -21,7 +21,7 @@ use Drupal\webform\Utility\WebformOptionsHelper;
  *
  * @FormElement("webform_element_options")
  */
-class WebformElementOptions extends FormElementBase {
+class WebformElementOptions extends FormElement {
 
   const CUSTOM_OPTION = '';
 

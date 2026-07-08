@@ -14,7 +14,7 @@ class WebformParagraphsTest extends WebformParagraphsTestBase {
   /**
    * Tests paragraphs.
    */
-  public function testParagraphs(): void {
+  public function testParagraphs() {
     $assert_session = $this->assertSession();
 
     $webform = Webform::load('webform_test_paragraphs');
@@ -38,7 +38,7 @@ class WebformParagraphsTest extends WebformParagraphsTestBase {
 
     // Check that the submission source entity is the paragraph.
     $submission = $this->getLastSubmission($webform);
-    $this->assertEquals($node->field_webform_test_paragraphs->entity->uuid(), $submission->getSourceEntity()->uuid());
+    $this->assertEquals($node->field_webform_test_paragraphs->entity, $submission->getSourceEntity());
 
     /* ********************************************************************** */
     // Inline (No source).
@@ -88,7 +88,7 @@ class WebformParagraphsTest extends WebformParagraphsTestBase {
 
     // Check that the submission source entity is the paragraph.
     $submission = $this->getLastSubmission($webform);
-    $this->assertEquals($node->field_webform_test_paragraphs->entity->uuid(), $submission->getSourceEntity()->uuid());
+    $this->assertEquals($node->field_webform_test_paragraphs->entity, $submission->getSourceEntity());
 
     /* ********************************************************************** */
     // Multiple.

@@ -29,7 +29,7 @@ class WebformSubmissionTest extends WebformBrowserTestBase {
   /**
    * Tests webform submission entity.
    */
-  public function testWebformSubmission(): void {
+  public function testWebformSubmission() {
     $normal_user = $this->drupalCreateUser();
 
     /** @var \Drupal\webform\WebformInterface $webform */
@@ -95,7 +95,7 @@ class WebformSubmissionTest extends WebformBrowserTestBase {
   /**
    * Tests duplicating webform submission.
    */
-  public function testDuplicate(): void {
+  public function testDuplicate() {
     $assert_session = $this->assertSession();
 
     $admin_submission_user = $this->drupalCreateUser([

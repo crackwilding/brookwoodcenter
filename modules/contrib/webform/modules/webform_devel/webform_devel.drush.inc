@@ -5,24 +5,41 @@
  * Webform module drush commands.
  */
 
-use Drupal\Core\Hook\Attribute\LegacyHook;
-use Drupal\webform_devel\Hook\WebformDevelDrushHooks;
 use Drush\Drush;
 
 /**
  * Implements hook_drush_command().
  */
-#[LegacyHook]
 function webform_devel_drush_command() {
-  return \Drupal::service(WebformDevelDrushHooks::class)->drushCommand();
+  $items = [];
+
+  $items['webform-devel-reset'] = [
+    'description' => 'Resets Webform user data and saved state for messages',
+    'core' => ['8+'],
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_ROOT,
+    'examples' => [
+      'webform-devel-reset' => 'Resets Webform user data and saved state for messages',
+    ],
+    'aliases' => ['wfdr', 'webform:devel:reset'],
+  ];
+
+  return $items;
 }
 
 /**
  * Implements hook_drush_help().
  */
-#[LegacyHook]
 function webform_devel_drush_help($section) {
-  return \Drupal::service(WebformDevelDrushHooks::class)->drushHelp($section);
+  switch ($section) {
+    case 'drush:webform-reset':
+      return dt('Resets Webform user data and saved state for messages');
+
+    case 'meta:webform:title':
+      return dt('Webform development commands');
+
+    case 'meta:webform:summary':
+      return dt('Developer specific commands for the Webform module.');
+  }
 }
 
 /* ************************************************************************** */
@@ -35,9 +52,7 @@ function webform_devel_drush_help($section) {
  * @see \Drupal\webform_devel\Commands\WebformDevelCommands::drush_webform_devel_reset()
  */
 function drush_webform_devel_reset() {
-  // @phpstan-ignore-next-line
   if (!drush_confirm(dt("Are you sure you want reset the Webform module's user data and saved state?"))) {
-    // @phpstan-ignore-next-line
     return drush_user_abort();
   }
 

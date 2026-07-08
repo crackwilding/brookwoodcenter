@@ -70,7 +70,7 @@ class WebformEntityAccessControlHandlerTest extends UnitTestCase {
    *
    * @dataProvider providerCheckAccess
    */
-  public function testCheckAccess($operation, array $options, array $expected, $assert_message = ''): void {
+  public function testCheckAccess($operation, array $options, array $expected, $assert_message = '') {
     // Set $options default value.
     $options += [
       // What is the request path.
@@ -184,13 +184,15 @@ class WebformEntityAccessControlHandlerTest extends UnitTestCase {
     // Mock access rules manager.
     $access_rules_manager = $this->createMock(WebformAccessRulesManagerInterface::class);
     $access_rules_manager->method('checkWebformAccess')
-      ->willReturnCallback(
-        function ($operation, AccountInterface $account, WebformInterface $webform) use ($options) {
-          $condition = in_array($operation, $options['access_rules']) || in_array($operation . '_any', $options['access_rules']);
-          return AccessResult::allowedIf($condition)
-            ->addCacheContexts(['access_rules_cache_context'])
-            ->addCacheTags(['access_rules_cache_tag']);
-        }
+      ->will(
+        $this->returnCallback(
+          function ($operation, AccountInterface $account, WebformInterface $webform) use ($options) {
+            $condition = in_array($operation, $options['access_rules']) || in_array($operation . '_any', $options['access_rules']);
+            return AccessResult::allowedIf($condition)
+              ->addCacheContexts(['access_rules_cache_context'])
+              ->addCacheTags(['access_rules_cache_tag']);
+          }
+        )
       );
 
     // Build container.
@@ -220,7 +222,7 @@ class WebformEntityAccessControlHandlerTest extends UnitTestCase {
    *
    * @see testCheckAccess()
    */
-  public static function providerCheckAccess() {
+  public function providerCheckAccess() {
     $tests = [];
 
     /* ********************************************************************** */

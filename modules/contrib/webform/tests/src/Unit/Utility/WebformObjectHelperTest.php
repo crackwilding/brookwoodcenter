@@ -26,7 +26,7 @@ class WebformObjectHelperTest extends UnitTestCase {
    *
    * @dataProvider providerSortByProperty
    */
-  public function testSortByProperty($object, array $expected): void {
+  public function testSortByProperty($object, array $expected) {
     $result = (array) WebformObjectHelper::sortByProperty($object);
     $this->assertEquals(
       implode('|', array_keys($expected)),
@@ -39,7 +39,7 @@ class WebformObjectHelperTest extends UnitTestCase {
    *
    * @see testSortByProperty()
    */
-  public static function providerSortByProperty() {
+  public function providerSortByProperty() {
     $object = new \stdClass();
     $object->c = 'c';
     $object->a = 'a';

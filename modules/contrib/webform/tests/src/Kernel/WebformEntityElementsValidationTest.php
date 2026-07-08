@@ -37,7 +37,7 @@ class WebformEntityElementsValidationTest extends KernelTestBase {
   /**
    * Tests validating elements.
    */
-  public function testValidate(): void {
+  public function testValidate() {
     $tests = [
       /*
       [
@@ -188,6 +188,26 @@ card:
           'Pages and cards cannot be used in the same webform. Please remove or convert the pages/cards to the same element type.',
         ],
       ],
+// phpcs:disable
+/*
+      // Check validate rendering.
+      [
+        'getElementsRaw' => "machine_name:
+  '#type': 'machine_name'
+  '#machine_name':
+     source:
+      broken",
+        'getElementsOriginalRaw' => "machine_name:
+  '#type': 'machine_name'
+  '#machine_name':
+     source:
+      broken",
+        'messages' => [
+          'Unable to render elements, please view the below message and the error log.<ul><li>Query condition &#039;webform_submission.webform_id IN ()&#039; cannot be empty.</li></ul>',
+        ],
+      ],
+*/
+// phpcs:enable
     ];
 
     // Check invalid YAML.
@@ -234,7 +254,7 @@ card:
       foreach ($methods as $method => $returnValue) {
         $webform->expects($this->any())
           ->method($method)
-          ->willReturn($returnValue);
+          ->will($this->returnValue($returnValue));
       }
 
       $messages = $this->validator->validate($webform);

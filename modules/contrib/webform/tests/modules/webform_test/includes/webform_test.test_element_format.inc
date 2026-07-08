@@ -98,7 +98,7 @@ function webform_test_test_element_format(WebformInterface $webform, $composite 
       ];
     }
     // Set default (test) value.
-    if (str_starts_with($element_type, 'date')) {
+    if (strpos($element_type, 'date') === 0) {
       $element['#default_value'] = ($multiple) ? ['1942-06-18', '1940-07-07', '1943-02-25'] : '1942-06-18';
     }
     elseif ($default_value = $submission_generate->getTestValue($webform, $element_type, $element, ['random' => FALSE])) {

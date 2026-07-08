@@ -152,7 +152,7 @@ class WebformSubmissionLogController extends ControllerBase {
       $row['operation'] = $log->operation;
       $row['message'] = [
         'data' => [
-          '#plain_text' => $this->t($log->message, $log->variables),
+          '#markup' => $this->t($log->message, $log->variables),
         ],
       ];
       $row['uid'] = [

@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 
 namespace Drupal\webform_bootstrap_test_theme\Plugin\Preprocess;
 
@@ -34,12 +35,14 @@ if (class_exists('\Drupal\bootstrap\Plugin\Preprocess\PreprocessBase')) {
         $variables->addClass($region_wells[$region]);
       }
     }
-
   }
+
 }
 else {
+
   /**
    * Empty "region" theme hook.
+   *
    */
   class Region {}
 }

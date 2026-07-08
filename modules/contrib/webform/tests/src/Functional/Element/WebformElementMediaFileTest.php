@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\webform\Functional\Element;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\file\Entity\File;
 use Drupal\webform\Entity\WebformSubmission;
 
@@ -27,23 +28,9 @@ class WebformElementMediaFileTest extends WebformElementManagedFileTestBase {
   protected static $testWebforms = ['test_element_media_file'];
 
   /**
-   * The webform.
-   *
-   * @var \Drupal\webform\WebformInterface
-   */
-  protected $webform;
-
-  /**
-   * Admin submission user.
-   *
-   * @var \Drupal\user\Entity\User
-   */
-  protected $adminSubmissionUser;
-
-  /**
    * Test media file upload elements.
    */
-  public function testMediaFileUpload(): void {
+  public function testMediaFileUpload() {
     $assert_session = $this->assertSession();
 
     /* Element render */
@@ -52,16 +39,16 @@ class WebformElementMediaFileTest extends WebformElementManagedFileTestBase {
     $this->drupalGet('/webform/test_element_media_file');
 
     // Check document file.
-    $assert_session->elementExists('css', 'input[name="files[document_file]"]');
+    $assert_session->responseContains('<input aria-describedby="edit-document-file--description" data-drupal-selector="edit-document-file-upload" type="file" id="edit-document-file-upload" name="files[document_file]" size="22" class="js-form-file form-file" />');
 
     // Check audio file.
-    $assert_session->elementExists('css', 'input[name="files[audio_file]"]');
+    $assert_session->responseContains('<input aria-describedby="edit-audio-file--description" data-drupal-selector="edit-audio-file-upload" accept="audio/*" type="file" id="edit-audio-file-upload" name="files[audio_file]" size="22" class="js-form-file form-file" />');
 
     // Check image file.
-    $assert_session->elementExists('css', 'input[name="files[image_file]"]');
+    $assert_session->responseContains('<input aria-describedby="edit-image-file--description" data-drupal-selector="edit-image-file-upload" accept="image/*" type="file" id="edit-image-file-upload" name="files[image_file]" size="22" class="js-form-file form-file" />');
 
     // Check video file.
-    $assert_session->elementExists('css', 'input[name="files[video_file]"]');
+    $assert_session->responseContains('<input aria-describedby="edit-video-file--description" data-drupal-selector="edit-video-file-upload" accept="video/mp4,video/x-m4v,video/*" type="file" id="edit-video-file-upload" name="files[video_file]" size="22" class="js-form-file form-file" />');
 
     /* Element processing */
 
@@ -77,15 +64,13 @@ class WebformElementMediaFileTest extends WebformElementManagedFileTestBase {
     $assert_session->responseContains('<img class="webform-image-file" alt="image_file_jpg.jpg" title="image_file_jpg.jpg" src="' . $this->getAbsoluteUrl('/system/files/webform/test_element_media_file/_sid_/image_file_jpg.jpg') . '" />');
 
     // Check image file link to modal.
-    // Drupal 11.2 have avif support.
-    // @see https://www.drupal.org/node/3511540
     $assert_session->responseContains('/system/files/webform/test_element_media_file/_sid_/image_file_jpg_modal.jpg" class="js-webform-image-file-modal webform-image-file-modal">');
-    if (version_compare(\Drupal::VERSION, '11', '<')) {
-      $assert_session->responseContains('/system/files/styles/thumbnail/private/webform/test_element_media_file/_sid_/image_file_jpg_modal.jpg.webp?itok=');
-    }
-    else {
-      $assert_session->responseContains('/system/files/styles/thumbnail/private/webform/test_element_media_file/_sid_/image_file_jpg_modal.jpg.avif?itok=');
-    }
+    DeprecationHelper::backwardsCompatibleCall(
+      currentVersion: \Drupal::VERSION,
+      deprecatedVersion: '10.3',
+      currentCallable: fn() => $assert_session->responseContains('/system/files/styles/thumbnail/private/webform/test_element_media_file/_sid_/image_file_jpg_modal.jpg.webp?itok='),
+      deprecatedCallable: fn() => $assert_session->responseContains('/system/files/styles/thumbnail/private/webform/test_element_media_file/_sid_/image_file_jpg_modal.jpg?itok='),
+    );
 
     // Check video file preview.
     $assert_session->responseContains('<source src="' . $this->getAbsoluteUrl('/system/files/webform/test_element_media_file/_sid_/video_file_mp4.mp4') . '" type="video/mp4">');

@@ -4,6 +4,9 @@
  */
 
 (function ($, Drupal, once) {
+
+  'use strict';
+
   /**
    * Adds check all or none checkboxes support.
    *
@@ -12,7 +15,7 @@
    * @see https://www.drupal.org/project/webform/issues/3068998
    */
   Drupal.behaviors.webformCheckboxesAllorNone = {
-    attach(context) {
+    attach: function (context) {
       $(once('webform-checkboxes-all-or-none', '[data-options-all], [data-options-none]', context))
         .each(function () {
           var $element = $(this);

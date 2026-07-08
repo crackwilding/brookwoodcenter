@@ -33,7 +33,7 @@ class WebformShareVariantTest extends WebformBrowserTestBase {
   /**
    * Test variant.
    */
-  public function testVariant(): void {
+  public function testVariant() {
     $assert_session = $this->assertSession();
 
     $library = WebformShareIframe::LIBRARY;

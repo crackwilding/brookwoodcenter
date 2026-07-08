@@ -19,7 +19,7 @@ class WebformElementXssTest extends WebformElementBrowserTestBase {
   /**
    * Test time element.
    */
-  public function testTime(): void {
+  public function testTime() {
     $assert_session = $this->assertSession();
     $this->drupalGet('/webform/test_element_xss');
     $this->submitForm([], 'Submit');

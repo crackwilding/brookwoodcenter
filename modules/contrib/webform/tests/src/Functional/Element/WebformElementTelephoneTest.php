@@ -26,7 +26,7 @@ class WebformElementTelephoneTest extends WebformElementBrowserTestBase {
   /**
    * Test telephone element.
    */
-  public function testTelephone(): void {
+  public function testTelephone() {
     $assert_session = $this->assertSession();
 
     $this->drupalGet('/webform/test_element_telephone');

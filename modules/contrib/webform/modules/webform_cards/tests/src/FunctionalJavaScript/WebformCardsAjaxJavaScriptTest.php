@@ -21,7 +21,7 @@ class WebformCardsAjaxJavaScriptTest extends WebformWebDriverTestBase {
   /**
    * Test webform cards ajax.
    */
-  public function testAjax(): void {
+  public function testAjax() {
     global $base_path;
 
     $session = $this->getSession();

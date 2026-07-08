@@ -24,7 +24,7 @@ class WebformHandlerEmailBasicTest extends WebformBrowserTestBase {
   /**
    * Test basic email handler.
    */
-  public function testBasicEmailHandler(): void {
+  public function testBasicEmailHandler() {
     $admin_user = $this->drupalCreateUser([
       'administer webform',
     ]);

@@ -28,7 +28,7 @@ class WebformNodeVariantTest extends WebformNodeBrowserTestBase {
   /**
    * Tests webform node variant.
    */
-  public function testNodeVariant(): void {
+  public function testNodeVariant() {
     $assert_session = $this->assertSession();
 
     // Create a webform node with a variant.

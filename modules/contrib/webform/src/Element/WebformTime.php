@@ -5,7 +5,7 @@ namespace Drupal\webform\Element;
 use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\Render\Element\FormElementBase;
+use Drupal\Core\Render\Element\FormElement;
 
 /**
  * Provides a webform element for time selection.
@@ -20,7 +20,7 @@ use Drupal\Core\Render\Element\FormElementBase;
  *
  * @FormElement("webform_time")
  */
-class WebformTime extends FormElementBase {
+class WebformTime extends FormElement {
 
   /**
    * {@inheritdoc}
@@ -77,11 +77,7 @@ class WebformTime extends FormElementBase {
     array_unshift($element['#element_validate'], [get_called_class(), 'validateWebformTime']);
 
     $element['#attached']['library'][] = 'webform/webform.element.time';
-
-    // If the timepicker is enabled, add data-webform-time-format attribute..
-    if (!empty($element['#timepicker'])) {
-      $element['#attributes']['data-webform-time-format'] = !empty($element['#time_format']) ? $element['#time_format'] : DateFormat::load('html_time')->getPattern();
-    }
+    $element['#attributes']['data-webform-time-format'] = !empty($element['#time_format']) ? $element['#time_format'] : DateFormat::load('html_time')->getPattern();
     return $element;
   }
 
@@ -130,7 +126,7 @@ class WebformTime extends FormElementBase {
     $time_format = $element['#time_format'];
 
     // Check minute steps.
-    if ($has_access && !empty($element['#step'])) {
+    if (!empty($element['#step'])) {
       // Covert step seconds to minutes.
       $step = ($element['#step'] / 60);
       // Get total minutes.

@@ -191,7 +191,7 @@ class SimpleGMapFormatter extends FormatterBase {
       'p' => $this->t('Terrain'),
     ];
     $map_type = $this->getSetting('map_type') ? $this->getSetting('map_type') : 'm';
-    $map_type = isset($map_types[$map_type]) ? $map_types[$map_type] : $map_types['m'];
+    $map_type = $map_types[$map_type] ?: $map_types['m'];
 
     $include_map = $this->getSetting('include_map');
     if ($include_map) {

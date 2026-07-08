@@ -18,3 +18,7 @@ function bwood_preprocess(&$variables, $hook) {
   // Ensure the cache varies correctly (new in Drupal 8.3).
   $variables['#cache']['contexts'][] = 'url.path.is_front';
 }
+
+function bwood_preprocess_field__email(&$variables) {
+  $variables['items'][0]['content']['#title'] = 'Email';
+}

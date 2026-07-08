@@ -32,7 +32,7 @@ class SimpleGmapTest extends WebDriverTestBase {
   /**
    * The entity object.
    *
-   * @var Drupal\node\Entity\Node
+   * @var \Drupal\node\Entity\Node
    */
   protected $node;
 
@@ -41,11 +41,8 @@ class SimpleGmapTest extends WebDriverTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'node',
-    // TODO can I remove menu_ui?
-    // (see node.type.simple_gmap_stress_test.yml)
-    'menu_ui',
     'path',
     'field',
     'field_ui',
@@ -57,7 +54,7 @@ class SimpleGmapTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     // Create and login as an authenticated user.
@@ -84,9 +81,10 @@ class SimpleGmapTest extends WebDriverTestBase {
    */
   public function testSettingsForm() {
     $session = $this->getSession();
+    /** @var \Drupal\FunctionalJavascriptTests\JSWebAssert $assert_session */
     $assert_session = $this->assertSession();
 
-    // To visiting the settings form we must first visitng the page
+    // To visiting the settings form we must first visiting the page
     // listing all its fields.
     $this->drupalGet('admin/structure/types/manage/simple_gmap_stress_test/display');
 

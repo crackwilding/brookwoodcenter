@@ -2,10 +2,9 @@
 
 namespace Drupal\Tests\simple_gmap\Kernel;
 
-use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
-
-use Drupal\node\Entity\Node;
 use Drupal\Core\Render\Markup;
+use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Tests the text formatters functionality.
@@ -19,19 +18,19 @@ class SimpleGMapFormatterTest extends EntityKernelTestBase {
    *
    * @var array
    */
-  public static $modules = ['node', 'simple_gmap', 'simple_gmap_stress_test'];
+  protected static $modules = ['node', 'simple_gmap', 'simple_gmap_stress_test'];
 
   /**
    * A instance of the simple gmap stress test content type.
    *
-   * @var \Drupal\Core\Entity\EntityInterface
+   * @var \Drupal\Core\Entity\ContentEntityInterface
    */
   protected $node;
 
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->installConfig('node');
     $this->installEntitySchema('node');
@@ -50,14 +49,12 @@ class SimpleGMapFormatterTest extends EntityKernelTestBase {
   /**
    * Inspect the formatter output.
    *
-   * Troublesome senarious :-
+   * Troublesome scenarios :-
    *   A complex character set.
    *   A XSS attack.
    */
   public function testFormatterOutput() {
-
-    $viewBuilder = \Drupal::entityTypeManager()->getViewBuilder('node');
-    $renderer = \Drupal::service('renderer');
+    $renderer = $this->container->get('renderer');
 
     $values = [
       'field_map2' => 'Place de l&amp;#039;Université-du-Québec, boulevard Charest Est, Québec, QC G1K',

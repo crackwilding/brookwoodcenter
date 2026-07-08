@@ -15,7 +15,7 @@ Google Maps can recognize, or to make a link to Google Map.
 
 ## INSTALLATION
 
-- Upload/unzip to your Drupal 8 /modules directory (or /modules/contrib or
+- Upload/unzip to your Drupal 9 /modules directory (or /modules/contrib or
   whatever).
 - Enable the module.
 - Add a plain Text field to your content type. You probably should add some

@@ -1,7 +1,7 @@
 name: 'Brookwood Center for Psychotherapy'
 type: theme
 description: 'Theme for Brookwood Center for Psychotherapy'
-core_version_requirement: ^10
+core_version_requirement: ^10 | ^11
 base theme: olivero
 
 
